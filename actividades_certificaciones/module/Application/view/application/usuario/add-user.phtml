@@ -1,0 +1,166 @@
+<div class="container py-5" style="max-width: 720px;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Crear Nuevo Usuario</h2>
+        <a href="/admin/listarUsuario" class="btn btn-outline-secondary">
+            ⬅ Volver al listado
+        </a>
+    </div>
+
+    <!-- Mensajes -->
+    <?php if (!empty($this->errorMessage)): ?>
+        <div class="alert alert-danger shadow-sm rounded">
+            <?= $this->errorMessage ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($this->successMessage)): ?>
+        <div class="alert alert-success shadow-sm rounded">
+            <?= $this->successMessage ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <form method="post">
+
+                <!-- Usuario -->
+                <h5 class="fw-semibold mb-3 text-primary">Datos de acceso</h5>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombres</label>
+                        <input
+                            type="text"
+                            name="nombre"
+                            class="form-control"
+                            required
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+                            placeholder="Ej: Carlos Alberto">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Apellidos</label>
+                        <input
+                            type="text"
+                            name="apellido"
+                            class="form-control"
+                            required
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+                            placeholder="Ej: Arriola Arriaga">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Correo electrónico</label>
+                        <input
+                            type="email"
+                            name="correo"
+                            class="form-control"
+                            required
+                            placeholder="correo@ejemplo.com">
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Contraseña</label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Confirmar contraseña</label>
+                        <input
+                            type="password"
+                            name="password_verify"
+                            class="form-control"
+                            required>
+                    </div>
+                </div>
+
+                <!-- Rol -->
+                <h5 class="fw-semibold mb-3 text-primary">Rol del usuario</h5>
+
+                <div class="mb-4">
+                    <label class="form-label">Rol</label>
+                    <select name="rol_id" class="form-select" required>
+                        <option value="">Seleccione un rol</option>
+                        <?php foreach ($this->roles as $id => $nombre): ?>
+                            <option value="<?= $id ?>"><?= $this->escapeHtml($nombre) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- Extensión -->
+
+
+                <!-- Datos personales -->
+                <h5 class="fw-semibold mb-3 text-primary">Datos personales</h5>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label">CUI</label>
+                        <input
+                            type="text"
+                            name="cui"
+                            class="form-control"
+                            required
+                            pattern="[0-9]{13}"
+                            maxlength="13"
+                            inputmode="numeric"
+                            title="El CUI debe contener exactamente 13 dígitos numéricos"
+                            oninvalid="this.setCustomValidity('El CUI debe contener exactamente 13 dígitos numéricos')"
+                            oninput="this.setCustomValidity('')"
+                            placeholder=" 1234567890101">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Carné</label>
+                        <input
+                            type="text"
+                            name="carnet"
+                            class="form-control"
+                            pattern="[0-9]{9}"
+                            maxlength="9"
+                            inputmode="numeric"
+                            title="El carnet debe contener exactamente 9 dígitos numéricos"
+                            oninvalid="this.setCustomValidity('El carnet debe contener exactamente 9 dígitos numéricos')"
+                            oninput="this.setCustomValidity('')"
+                            placeholder="Opcional">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Registro personal</label>
+                        <input
+                            type="text"
+                            name="registro_personal"
+                            class="form-control"
+                            pattern="[0-9]{8}"
+                            maxlength="8"
+                            inputmode="numeric"
+                            title="El registro personal debe contener exactamente 8 dígitos numéricos"
+                            oninvalid="this.setCustomValidity('El registro personal debe contener exactamente 8 dígitos numéricos')"
+                            oninput="this.setCustomValidity('')"
+                            placeholder="Opcional">
+                    </div>
+                </div>
+
+                <!-- Botón -->
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg shadow-sm">
+                        💾 Crear usuario
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

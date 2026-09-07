@@ -1,0 +1,160 @@
+<div class="container py-5 d-flex justify-content-center">
+    <div class="card shadow-sm" style="max-width: 650px; width: 100%;">
+
+        <?php $esSimple = $actividad->tipo_participacion === null; ?>
+
+        <!-- Header -->
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0 fw-bold">
+                <?= $esSimple 
+                    ? 'Editar Actividad' 
+                    : 'Editar Actividad con Participantes' ?>
+            </h4>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+
+            <!-- Mensajes de error -->
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-danger shadow-sm rounded">
+                    <?= nl2br($this->escapeHtml($error)) ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" enctype="multipart/form-data">
+
+                <!-- Solo enviar tipo si existe -->
+                <?php if (!$esSimple): ?>
+                    <input type="hidden"
+                           name="tipo_participacion"
+                           value="<?= $this->escapeHtml($actividad->tipo_participacion) ?>">
+                <?php endif; ?>
+
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nombre de la actividad</label>
+                    <input type="text"
+                           name="nombre"
+                           class="form-control"
+                           value="<?= $this->escapeHtml($actividad->nombre) ?>"
+                           required>
+                </div>
+
+                <!-- Organizador / Carrera según rol -->
+                <?php if (in_array($tipo_id, [2,3])): ?>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Organizador</label>
+                        <input class="form-control"
+                               value="<?= $this->escapeHtml($roles[$actividad->organizador] ?? 'Desconocido') ?>"
+                               disabled>
+                        <input type="hidden"
+                               name="organizador"
+                               value="<?= $this->escapeHtml($actividad->organizador) ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Carrera</label>
+                        <select name="carrera" class="form-select" required>
+                            <?php foreach ($carreras as $id => $nombre): ?>
+                                <option value="<?= $id ?>"
+                                    <?= ((int)$actividad->carrera === (int)$id) ? 'selected' : '' ?>>
+                                    <?= $this->escapeHtml($nombre) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                <?php else: ?>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Organizador</label>
+                        <input class="form-control"
+                               value="<?= $this->escapeHtml($roles[$actividad->organizador] ?? 'Desconocido') ?>"
+                               disabled>
+                        <input type="hidden"
+                               name="organizador"
+                               value="<?= $this->escapeHtml($actividad->organizador) ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Carrera</label>
+                        <input class="form-control"
+                               value="<?= $this->escapeHtml($carreras[$actividad->carrera] ?? '') ?>"
+                               disabled>
+                        <input type="hidden"
+                               name="carrera"
+                               value="<?= (int)$actividad->carrera ?>">
+                    </div>
+
+                <?php endif; ?>
+
+                <!-- Fecha -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Fecha</label>
+                    <input type="date"
+                           name="fecha"
+                           class="form-control"
+                           value="<?= date('Y-m-d', strtotime($actividad->fecha)) ?>"
+                           required>
+                </div>
+
+                <!-- Créditos -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Cantidad de Créditos</label>
+                    <input type="number"
+                           name="credito"
+                           class="form-control"
+                           step="0.5"
+                           min="0.5"
+                           max="3"
+                           required
+                           value="<?= $this->escapeHtml($actividad->credito) ?>">
+                </div>
+
+                <!-- Participación Individual -->
+                <?php if (!$esSimple && $actividad->tipo_participacion === 'individual'): ?>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Estudiante (Carné)</label>
+                        <input type="text"
+                               name="estudiante_individual"
+                               class="form-control"
+                               value="<?= isset($estudiante['carnet']) 
+                                    ? $this->escapeHtml($estudiante['carnet']) 
+                                    : '' ?>"
+                               required>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Participación por Lista -->
+                <?php if (!$esSimple && $actividad->tipo_participacion === 'lista'): ?>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Subir nueva lista de asistencia en "EXCEL"
+                        </label>
+                        <input type="file"
+                               name="lista_asistencia"
+                               class="form-control"
+                               accept="*">
+                        <small class="text-muted">
+                            Si subes un archivo, la lista anterior será reemplazada.
+                        </small>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button class="btn btn-primary btn-lg" type="submit">
+                        Guardar cambios
+                    </button>
+                    <a href="/actividades" class="btn btn-outline-secondary btn-lg">
+                        Volver
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

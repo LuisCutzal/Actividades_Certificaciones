@@ -1,0 +1,99 @@
+<script src="<?= $this->basePath('js/actividades-form.js') ?>" defer></script>
+<?php
+$nombreRol = $roles[$rol_id] ?? 'Desconocido';
+?>
+
+<div class="container py-5 d-flex justify-content-center">
+    <div class="card shadow-sm p-4" style="max-width: 600px; width: 100%;">
+        <h2 class="text-center fw-bold mb-4">Crear Nueva Actividad</h2>
+
+        <!-- Mensajes -->
+        <?php if (!empty($this->errorMessage)): ?>
+            <div class="alert alert-danger shadow-sm rounded" style="white-space: pre-line;">
+                <?= $this->escapeHtml($this->errorMessage) ?>
+            </div>
+        <?php endif; ?>
+        <?php if (!empty($this->successMessage)): ?>
+            <div class="alert alert-success shadow-sm rounded"><?= $this->successMessage ?></div>
+        <?php endif; ?>
+
+        <form method="post" action="" enctype="multipart/form-data">
+
+            <!-- Nombre de la actividad -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Nombre de la actividad</label>
+                <input
+                    type="text"
+                    name="nombre"
+                    class="form-control form-control-lg"
+                    required
+                    placeholder="Ej: Taller de Arquitectura Moderna">
+            </div>
+
+            <!-- Fecha -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Fecha</label>
+                <input
+                    type="date"
+                    name="fecha"
+                    class="form-control form-control-lg"
+                    required
+                    value="<?= date('Y-m-d') ?>">
+            </div>
+
+            <!-- Organizador y carrera -->
+            <?php if ($carreraAsignadaId !== null): ?>
+                <!-- Usuario con una sola carrera -->
+                <input type="hidden" name="organizador" value="<?= $rol_id ?>">
+                <input type="hidden" name="carrera" value="<?= $carreraAsignadaId ?>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Organizador</label>
+                    <input class="form-control" value="<?= $nombreRol ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Carrera</label>
+                    <input class="form-control" value="<?= $carreraAsignadaNombre ?>" disabled>
+                </div>
+            <?php else: ?>
+                <!-- Usuario con varias carreras -->
+                <input type="hidden" name="organizador" value="<?= $tipo_id ?>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Organizador</label>
+                    <input class="form-control" value="<?= $nombreRol ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Carrera</label>
+                    <select name="carrera" class="form-select form-select-lg" required>
+                        <option value="">-- Selecciona --</option>
+                        <?php foreach ($carreras as $id => $nombre): ?>
+                            <option value="<?= $id ?>"><?= $nombre ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            <?php endif; ?>
+
+            <!-- Créditos -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Cantidad de Créditos</label>
+                <input
+                    type="number"
+                    name="credito"
+                    class="form-control form-control-lg"
+                    step="0.5"
+                    min="0.5"
+                    max="3"
+                    required>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary btn-lg w-50" type="submit">Crear Actividad</button>
+                <a href="/actividades" class="btn btn-outline-secondary btn-lg w-50">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

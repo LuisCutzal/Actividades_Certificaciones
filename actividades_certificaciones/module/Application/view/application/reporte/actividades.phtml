@@ -1,0 +1,73 @@
+<!-- FLASH MESSAGES -->
+<?php if ($this->flashMessenger()->hasWarningMessages()): ?>
+    <?php foreach ($this->flashMessenger()->getWarningMessages() as $msg): ?>
+        <div class="alert alert-warning alert-dismissible fade show shadow-sm m-3">
+            <?= $this->escapeHtml($msg) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<h1 class="mb-4">📄 Reporte de Actividades</h1>
+
+<form method="get" class="mb-3">
+    <div class="row g-2 align-items-stretch">
+        <div class="col-md-8">
+            <input type="text"
+                name="buscar"
+                class="form-control form-control-lg"
+                placeholder="Buscar por nombre u organizador"
+                value="<?= $this->escapeHtml($buscar ?? '') ?>">
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+            <button class="btn btn-primary btn-lg flex-fill">
+                🔍 Buscar
+            </button>
+            <a href="<?= $this->url('reportes/actividades') ?>"
+                class="btn btn-outline-secondary btn-lg flex-fill">
+                Limpiar
+            </a>
+        </div>
+    </div>
+</form>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Organizador</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($actividades as $actividad): ?>
+                <tr>
+                    <td><?= $actividad->id ?></td>
+                    <td><?= $this->escapeHtml($actividad->nombre) ?></td>
+                    <td><?= $this->escapeHtml($actividad->organizador_nombre) ?></td>
+                    <td>
+                        <?php if ($actividad->estado == 1): ?>
+                            <span class="badge bg-success">Aprobada</span>
+                        <?php elseif ($actividad->estado == 2): ?>
+                            <span class="badge bg-danger">No realizada</span>
+                        <?php else: ?>
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <a href="<?= $this->url('reportes/actividad', ['id' => $actividad->id]) ?>"
+                            class="btn btn-sm btn-primary">
+                            Ver reporte
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?= $this->partial('application/partials/pagination', [
+        'paginator' => $actividades,
+        'query' => ['buscar' => $buscar]
+    ]) ?>
+</div>

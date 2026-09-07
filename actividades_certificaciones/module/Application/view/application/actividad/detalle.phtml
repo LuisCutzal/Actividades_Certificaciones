@@ -1,0 +1,89 @@
+<div class="container py-4 d-flex justify-content-center">
+
+    <div class="card shadow-sm" style="max-width: 650px; width: 100%;">
+
+        <!-- Header -->
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0 fw-bold">Detalle de Actividad</h4>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">Nombre de la Actividad</div>
+                <div class="col-md-8"><?= $this->escapeHtml($actividad->nombre) ?></div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">Organizador</div>
+                <div class="col-md-8">
+                    <?= $this->escapeHtml(
+                        $roles[$actividad->organizador] ?? 'Desconocido'
+                    ) ?>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">Fecha</div>
+                <div class="col-md-8"><?= date('d/m/Y', strtotime($actividad->fecha)) ?></div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">Créditos</div>
+                <div class="col-md-8"><?= number_format($actividad->credito, 1, '.', '') ?></div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">Carrera</div>
+                <div class="col-md-8"><?= $this->escapeHtml($carreras[$actividad->carrera] ?? 'No asignada') ?></div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <a href="/actividades" class="btn btn-outline-secondary">
+                ← Regresar
+            </a>
+
+            <?php if ($tipo_id === 3): ?>
+
+                <?php if ((int)$actividad->estado === 1): ?>
+                    <!-- APROBADA -->
+                    <span class="badge bg-success fs-6 px-3 py-2">
+                        ✔ Aprobado
+                    </span>
+
+                <?php elseif ((int)$actividad->estado === 2): ?>
+                    <!-- RECHAZADA -->
+                    <span class="badge bg-danger fs-6 px-3 py-2">
+                        ✖ Rechazado
+                    </span>
+
+                    <a href="/actividades/ver-rechazo/<?= $actividad->id ?>"
+                        class="btn btn-outline-danger">
+                        Ver motivo
+                    </a>
+
+                <?php else: ?>
+                    <!-- PENDIENTE -->
+                    <a href="/actividades/aprobar/<?= $actividad->id ?>"
+                        class="btn btn-success"
+                        onclick="return confirm('¿Desea aprobar esta actividad?')">
+                        ✔ Aprobar
+                    </a>
+
+                    <a href="/actividades/rechazar/<?= $actividad->id ?>"
+                        class="btn btn-danger">
+                        ✖ Rechazar
+                    </a>
+                <?php endif; ?>
+
+            <?php endif; ?>
+
+        </div>
+
+    </div>
+</div>

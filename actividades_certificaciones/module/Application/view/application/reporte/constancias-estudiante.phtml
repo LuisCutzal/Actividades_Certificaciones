@@ -1,0 +1,77 @@
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold mb-0">
+            Estudiante: <?= $this->escapeHtml($estudiante->nombre) ?>
+        </h2>
+
+        <a href="/estudiantes" class="btn btn-outline-secondary">
+            ← Volver
+        </a>
+    </div>
+
+    <p class="text-muted">
+        Carnet: <strong><?= $estudiante->carnet ?></strong>
+    </p>
+</div>
+
+<form method="get" class="mb-4">
+    <div class="input-group input-group-lg">
+        <span class="input-group-text bg-light">🔍</span>
+        <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Buscar por correlativo..."
+            value="<?= $this->escapeHtml($buscar ?? '') ?>">
+        <button class="btn btn-primary px-4" type="submit">Buscar</button>
+        <a href="/reportes/constancias/estudiante/<?= $estudiante->carnet ?>" class="btn btn-outline-secondary">Limpiar</a>
+    </div>
+</form>
+<hr>
+
+
+<?php if ($constancias->count() === 0): ?>
+
+    <div class="alert alert-info">
+        Este estudiante no tiene constancias generadas.
+    </div>
+
+<?php else: ?>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Correlativo</th>
+                    <th>Estado</th>
+                    <th>Generado por</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($constancias as $c): ?>
+                    <tr>
+                        <td class="fw-semibold text-primary">
+                            <?= $this->escapeHtml($c->correlativo) ?>
+                        </td>
+                        <td>
+                            <?= $c->tipo == 3
+                                ? '✅ Constancia por actividades aprobadas'
+                                : '⏳ Constancia por actividades pendientes/aprobadas' ?>
+                        </td>
+                        <td>
+                            <?= $this->escapeHtml($c->usuario_generador ?? '—') ?>
+                        </td>
+                        <td>
+                            <?= date('d/m/Y H:i', strtotime($c->fecha_generado)) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?= $this->partial('application/partials/pagination', [
+            'paginator' => $constancias
+        ]) ?>
+    </div>
+<?php endif; ?>

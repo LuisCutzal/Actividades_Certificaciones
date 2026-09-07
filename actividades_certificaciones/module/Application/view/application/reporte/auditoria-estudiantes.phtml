@@ -1,0 +1,138 @@
+<div class="auditoria-container">
+    <?php
+    $this->headTitle('Auditoría de Estudiantes');
+    ?>
+
+    <link rel="stylesheet" href="<?= $this->basePath('css/auditoria-estudiantes.css') ?>">
+    <script src="<?= $this->basePath('js/auditoria-estudiantes.js') ?>" defer></script>
+
+    <h2>Auditoría de Estudiantes</h2>
+
+    <div class="filtros mb-3">
+
+        <form method="get" class="d-flex gap-2">
+
+            <input
+                type="text"
+                name="carnet"
+                class="form-control"
+                placeholder="Ej: 20231234"
+                value="<?= $this->escapeHtml($carnet ?? '') ?>">
+
+            <button class="btn btn-primary">
+                🔍 Buscar
+            </button>
+
+            <a href="/reportes/auditoria/estudiantes"
+                class="btn btn-outline-secondary">
+                Limpiar
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <table id="tablaAuditoria">
+        <thead>
+            <tr>
+                <th>Carnet</th>
+                <th>Estudiante</th>
+                <th>Actividad</th>
+                <th>Estado</th>
+                <th>Fecha creación</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($estudiantes as $e): ?>
+                <?php
+                switch ($e->estado_lista) {
+                    case 1:
+                        $estadoTexto = 'Aprobado';
+                        $estadoClase = 'estado-aprobado';
+                        break;
+                    case 2:
+                        $estadoTexto = 'No realizada';
+                        $estadoClase = 'estado-rechazado';
+                        break;
+                    default:
+                        $estadoTexto = 'Pendiente';
+                        $estadoClase = 'estado-pendiente';
+                }
+                ?>
+                <tr>
+                    <td class="carnet"><?= $this->escapeHtml($e->carnet) ?></td>
+                    <td><?= $this->escapeHtml($e->estudiante_nombre) ?></td>
+                    <td><?= $this->escapeHtml($e->actividad_nombre) ?></td>
+                    <td>
+                        <span class="estado <?= $estadoClase ?>">
+                            <?= $estadoTexto ?>
+                        </span>
+                    </td>
+                    <td><?= date('d/m/Y H:i', strtotime($e->creado)) ?></td>
+                    <td>
+                        <button
+                            class="btn-detalles"
+                            data-detalles='<?= json_encode([
+                                                'actividad'          => $e->actividad_nombre,
+                                                'organizador_nombre' => $e->organizador_nombre,
+                                                'carrera'            => $e->carrera_nombre,
+                                                'tipo'               => ucfirst($e->tipo_participacion),
+                                                'credito'            => $e->credito,
+                                                'estadoLista'        => $estadoTexto,
+                                                'fechaActividad'     => date('d/m/Y H:i', strtotime($e->fecha_actividad)),
+                                                'aprobado'           => $e->aprobado ? date('d/m/Y H:i', strtotime($e->aprobado)) : null,
+                                                'rechazado'          => $e->rechazado ? date('d/m/Y H:i', strtotime($e->rechazado)) : null,
+                                                'fechaResolucion'    => $e->fecha_resolucion ? date('d/m/Y H:i', strtotime($e->fecha_resolucion)) : null,
+                                                'motivoRechazo'      => $e->motivo_rechazo,
+                                            ]) ?>'>
+                            Ver
+                        </button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <!-- Paginación -->
+
+    <?= $this->partial('application/partials/pagination', [
+        'paginator' => $estudiantes,
+        'query'     => [
+            'carnet' => $carnet ?? ''
+        ]
+    ]) ?>
+
+
+    <div id="overlay" class="overlay" onclick="cerrarDetalle()"></div>
+
+    <div id="detalleCard" class="detalle-card">
+        <span class="cerrar" onclick="cerrarDetalle()">✖</span>
+
+        <h3>Detalle de Auditoría</h3>
+
+        <p><strong>Actividad:</strong> <span id="dActividad"></span></p>
+        <p><strong>Organizador:</strong> <span id="dOrganizador"></span></p>
+        <p><strong>Carrera:</strong> <span id="dCarrera"></span></p>
+        <p><strong>Tipo:</strong> <span id="dTipo"></span></p>
+        <p><strong>Créditos:</strong> <span id="dCredito"></span></p>
+
+        <hr>
+
+        <p><strong>Estado lista:</strong> <span id="dEstadoLista"></span></p>
+        <p><strong>Fecha actividad:</strong> <span id="dFechaActividad"></span></p>
+        <p><strong>Fecha aprobación:</strong> <span id="dAprobado"></span></p>
+        <p><strong>Fecha rechazo:</strong> <span id="dRechazado"></span></p>
+        <p><strong>Fecha resolución:</strong> <span id="dFechaResolucion"></span></p>
+
+        <div id="bloqueMotivo" style="display:none;">
+            <hr>
+            <p><strong>Motivo de la actividad no realizada:</strong></p>
+            <div class="motivo">
+                <span id="dMotivoRechazo"></span>
+            </div>
+        </div>
+    </div>
+
+</div>

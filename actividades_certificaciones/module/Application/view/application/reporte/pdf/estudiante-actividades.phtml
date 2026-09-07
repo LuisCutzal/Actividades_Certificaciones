@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            margin: 135px 50px 120px 50px;
+        }
+
+        body {
+            font-family: "DejaVu Sans", sans-serif;
+            font-size: 11px;
+            color: #000;
+        }
+
+        /* ===== ENCABEZADO FIJO ===== */
+        header {
+            position: fixed;
+            top: -150px;
+            left: 0;
+            right: 0;
+            height: 90px;
+        }
+
+        .header-table {
+            width: 100%;
+            border: none;
+        }
+
+        .header-table td {
+            border: none;
+            vertical-align: middle;
+        }
+
+        /* ===== ESTILOS DEL CUERPO (MODIFICADO) ===== */
+
+        /* Contenedor para centrar visualmente el bloque de texto */
+        .bloque-central {
+            padding: 0 40px;
+            /* Margen interno para que el texto se vea más centrado en la hoja */
+        }
+
+        h3 {
+            text-align: center;
+            margin: 20px 0 20px 0;
+            font-size: 12px;
+            text-transform: uppercase;
+            line-height: 1.5;
+        }
+
+        /* Clase para el párrafo de certificación centrado */
+        p.certificacion {
+            margin: 10px 0;
+            text-align: justify;
+            /* <--- CAMBIO AQUÍ: de center a justify */
+            line-height: 1.6;
+            font-size: 11px;
+        }
+
+        /* ===== TABLA (MODIFICADO) ===== */
+        table {
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            /* Petición: Tabla centrada (no ocupa el 100% para verse centrada) */
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            /* Un poco más de aire */
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tbody tr {
+            page-break-inside: avoid;
+        }
+
+        .total {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+            /* También centramos el total */
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== FIRMA Y SELLO ===== */
+        .firma-sello {
+            margin-top: 30px;
+            /* Reducido de 60px a 30px para subirlo */
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .firma-sello td {
+            border: none;
+            text-align: center;
+            /* Todo centrado horizontalmente */
+            vertical-align: top;
+            padding: 5px 0;
+            /* Poco padding vertical entre elementos */
+        }
+
+        .linea {
+            border-top: 1px solid #000;
+            width: 40%;
+            /* Línea más corta para que se vea bien centrada */
+            margin: 0 auto;
+            /* Centra la línea div dentro de la celda */
+            margin-bottom: 5px;
+        }
+
+        /* ===== PIE DE PÁGINA ===== */
+        footer {
+            position: fixed;
+            bottom: -90px;
+            left: 0;
+            right: 0;
+            height: 80px;
+            font-size: 10px;
+        }
+
+        .footer-table {
+            width: 100%;
+            border: none;
+        }
+
+        .footer-table td {
+            border: none;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    
+    <header>
+        <table class="header-table" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+            <tr>
+                <td width="50%" valign="middle" style="background: #002F5D; color: #ffffff; padding: 5px 8px; border-right: 2px solid #ffffff;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td width="100%" align="left" valign="middle" style="padding-left: 5px;">
+                                <div style="font-size: 12px; font-weight: bold; letter-spacing: 1px;">AEDA</div>
+                                <div style="font-size: 7px; line-height: 1.1;">ASOCIACIÓN DE ESTUDIANTES</div>
+                                <div style="font-size: 7px; line-height: 1.1;">DE ARQUITECTURA</div>
+                                <div style="font-size: 7px; font-weight: bold; margin-top: 1px;">"ROGELIA CRUZ MARTÍNEZ"</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td width="50%" valign="middle" style="background: #FFC800; color: #000000; padding: 5px 8px;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td width="100%" align="right" valign="middle" style="padding-right: 5px;">
+                                <div style="font-size: 9px; font-weight: 900; color: #002F5D;">USAC TRICENTENARIA</div>
+                                <div style="font-size: 7px; line-height: 1.1; color: #000;">FACULTAD DE ARQUITECTURA</div>
+                                <div style="font-size: 7px; line-height: 1.1; color: #000;">UNIVERSIDAD DE SAN CARLOS</div>
+                                <div style="font-size: 7px; line-height: 1.1; color: #000;">DE GUATEMALA</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </header>
+
+    <footer>
+        <table class="footer-table">
+            <tr>
+                <td width="70%">
+                    Segundo Nivel, Edificio T-2, Ciudad Universitaria, Zona 12, Guatemala
+                </td>
+                <td width="30%" align="right">
+                    aeda@farusac.edu.gt
+                </td>
+            </tr>
+        </table>
+    </footer>
+
+
+    <div class="bloque-central">
+
+    <h3>LA SECRETARÍA GENERAL DE LA ASOCIACIÓN DE ESTUDIANTES DE ARQUITECTURA DE LA
+        FACULTAD DE ARQUITECTURA DE LA UNIVERSIDAD DE SAN CARLOS DE GUATEMALA, POR
+        ESTE MEDIO CERTIFICA:</h3>
+
+    <?php if ($sinActividades): ?>
+
+        <p class="certificacion">
+            El estudiante <strong><?= $this->escapeHtml($estudiante->nombre) ?></strong>,
+            con Carné No. <strong><?= $this->escapeHtml($estudiante->carnet) ?></strong>,
+            <strong>no registra actividades extracurriculares</strong>
+            a la fecha de emisión de la presente constancia.
+        </p>
+
+    <?php else: ?>
+
+        <p class="certificacion">
+            Que la estudiante <strong><?= $this->escapeHtml($estudiante->nombre) ?></strong>,
+            con Carné No. <strong><?= $this->escapeHtml($estudiante->carnet) ?></strong>,
+            ha presentado las constancias de actividades extracurriculares que le
+            adjudican la cantidad de <strong><?= $totalCreditos ?></strong> Créditos Extracurriculares,
+            FARUSAC, aprobado según Punto PRIMERO inciso 1.2 del acta No. 28-2009.
+        </p>
+
+    <?php endif; ?>
+
+</div>
+    <?php if (!$sinActividades): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th width="70%">ACTIVIDAD</th>
+                    <th width="30%">CRÉDITOS ADJUDICADOS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($actividades as $a): ?>
+                    <tr>
+                        <td align="center"><?= $this->escapeHtml($a->actividad) ?></td>
+                        <td align="center"><?= $a->credito ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr style="font-weight: bold;">
+                    <td align="center">TOTAL</td>
+                    <td align="center"><?= $totalCreditos ?> CRÉDITOS</td>
+                </tr>
+            </tbody>
+        </table>
+
+    <?php endif; ?>
+
+    <div class="bloque-central">
+        <p style="margin-top:20px; text-align: justify;">
+            Para los usos legales que convengan, se extiende y firma la presente en la Ciudad de Guatemala a los dieciséis días
+            del mes de diciembre del año dos mil veintitrés.
+        </p>
+    </div>
+
+    <table class="firma-sello">
+        <tr>
+            <td style="padding-bottom: 60px;"> <strong>Atentamente</strong><br>
+                “Id y enseñad a todos”
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="linea"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding-top: 10px;"> <strong>Nombre completo de él (la) miembro de la asociación</strong><br>
+                Secretaria General AEDA<br>
+                Facultad de Arquitectura, USAC.<br>
+                ************ÚLTIMA LÍNEA************
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

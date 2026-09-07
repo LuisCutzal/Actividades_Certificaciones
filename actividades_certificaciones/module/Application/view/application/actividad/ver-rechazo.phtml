@@ -1,0 +1,72 @@
+<div class="container py-4 d-flex justify-content-center">
+
+    <div class="card shadow-sm" style="max-width: 650px; width: 100%;">
+
+        <!-- Header -->
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0 fw-bold">
+                ✖ Detalle de la actividad no realizada
+            </h4>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">
+                    Nombre de la actividad
+                </div>
+                <div class="col-md-8">
+                    <?= $this->escapeHtml($actividad->nombre) ?>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">
+                    Organizador
+                </div>
+                <div class="col-md-8">
+                    <?= $this->escapeHtml($roles[$actividad->organizador] ?? 'Desconocido') ?>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted fw-semibold">
+                    Fecha de rechazo
+                </div>
+                <div class="col-md-8">
+                    <?= $actividad->fecha_resolucion
+                        ? date('d/m/Y H:i', strtotime($actividad->fecha_resolucion))
+                        : '-' ?>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mb-2 text-muted fw-semibold">
+                Motivo de la actividad no realizada
+            </div>
+
+            <div class="p-3 bg-light border rounded">
+                <?= nl2br($this->escapeHtml($actividad->motivo_rechazo)) ?>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer text-end">
+            <a href="/actividades/rechazadas" class="btn btn-outline-secondary">
+                ← Volver
+            </a>
+            <?php if ($actividad->tipo_participacion != null): ?>
+                <a href="/actividades/<?= $actividad->id ?>/asistencia"
+                    class="btn btn-outline-secondary"
+                    title="Lista de asistencia">
+                    📋 Lista de asistencia
+                </a>
+            <?php endif; ?>
+        </div>
+
+    </div>
+
+</div>

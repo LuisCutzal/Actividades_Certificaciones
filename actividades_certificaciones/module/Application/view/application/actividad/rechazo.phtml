@@ -1,0 +1,75 @@
+<div class="container py-5" style="max-width: 700px;">
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0">
+
+        <!-- Header -->
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0 fw-bold">✖ Actividad no realizada</h4>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body p-4">
+
+            <!-- Info de la actividad -->
+            <div class="mb-4">
+                <div class="row mb-2">
+                    <div class="col-md-4 text-muted fw-semibold">Nombre de la actividad</div>
+                    <div class="col-md-8">
+                        <?= $this->escapeHtml($actividad->nombre) ?>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4 text-muted fw-semibold">Organizador</div>
+                    <div class="col-md-8">
+                        <?= $this->escapeHtml($roles[$actividad->organizador] ?? 'Desconocido') ?>
+                        <input type="hidden" name="organizador" value="<?= $this->escapeHtml($actividad->organizador) ?>">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-danger shadow-sm">
+                    <?= $this->escapeHtml($error) ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Formulario -->
+            <form method="post">
+
+                <div class="mb-4">
+                    <label for="motivo_rechazo" class="form-label fw-semibold">
+                        Motivo de la actividad no realizada
+                    </label>
+                    <textarea
+                        name="motivo_rechazo"
+                        id="motivo_rechazo"
+                        class="form-control form-control-lg"
+                        rows="4"
+                        required
+                        style="resize: none;"
+                        placeholder="Describe claramente el motivo de la actividad no realizada..."></textarea>
+                </div>
+
+                <!-- Acciones -->
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a href="/actividades" class="btn btn-outline-secondary btn-lg">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-danger btn-lg shadow-sm">
+                        ✖ Confirmar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

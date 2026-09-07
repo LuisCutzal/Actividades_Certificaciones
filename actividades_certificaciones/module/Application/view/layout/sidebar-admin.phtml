@@ -1,0 +1,84 @@
+<ul class="nav flex-column">
+
+    <!-- Dashboard -->
+    <li class="nav-item">
+        <a href="/admin" class="nav-link text-white">
+            📊 Dashboard
+        </a>
+    </li>
+
+    <!-- Usuarios (submenu) -->
+    <li class="nav-item">
+        <a class="nav-link text-white"
+            data-bs-toggle="collapse"
+            href="#submenuUsuarios"
+            role="button"
+            aria-expanded="false"
+            aria-controls="submenuUsuarios">
+            👥 Usuarios ▾
+        </a>
+
+        <div class="collapse ms-3" id="submenuUsuarios">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="/admin/crearUsuario" class="nav-link text-white">➕ Crear</a></li>
+                <li class="nav-item"><a href="/admin/listarUsuario" class="nav-link text-white">✏️ Modificar/Eliminar</a></li>
+                <!-- <li class="nav-item"><a href="/admin/usuarios/eliminar" class="nav-link text-white">🗑️ Eliminar usuario</a></li> -->
+            </ul>
+        </div>
+    </li>
+
+    <!-- Roles y permisos (submenu) -->
+    <li class="nav-item mt-2">
+        <a class="nav-link text-white"
+            data-bs-toggle="collapse"
+            href="#submenuRoles"
+            role="button"
+            aria-expanded="false"
+            aria-controls="submenuRoles">
+            👥 Roles ▾
+        </a>
+
+        <div class="collapse ms-3" id="submenuRoles">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="/admin/roles/crear" class="nav-link text-white">➕ Crear</a></li>
+                <li class="nav-item"><a href="/admin/roles/listar" class="nav-link text-white">✏️ Modificar/Eliminar</a></li>
+            </ul>
+        </div>
+    </li>
+
+    <!-- Reportes (submenu) -->
+    <li class="nav-item mt-2">
+        <a class="nav-link text-white"
+            data-bs-toggle="collapse"
+            href="#submenuReportes">
+            📑 Reportes ▾
+        </a>
+
+        <div class="collapse ms-3" id="submenuReportes">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="/reportes/actividades" class="nav-link text-white">
+                        📄 Reporte de Actividades
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reportes/auditoria/estudiantes" class="nav-link text-white">
+                        📄 Reporte de Estudiantes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/reportes/historial" class="nav-link text-white">
+                        📄 Reporte de Auditoría
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a href="/admin/logs" class="nav-link text-white">
+            📊 Logs
+        </a>
+    </li>
+
+</ul>

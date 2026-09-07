@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 15px;
+        }
+
+        .row {
+            margin-bottom: 8px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .estado-aprobada {
+            color: green;
+        }
+
+        .estado-rechazada {
+            color: red;
+        }
+
+        .estado-pendiente {
+            color: #c28b00;
+        }
+
+        .rechazo-box {
+            border: 1px solid #e74c3c;
+            background-color: #fbeaea;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Reporte de Actividad</h1>
+
+    <div class="box">
+
+        <div class="row">
+            <span class="label">Nombre de la Actividad:</span>
+            <?= $this->escapeHtml($actividad->nombre) ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Organizador:</span>
+            <?= $this->escapeHtml($actividad->organizador_nombre ?? 'N/A') ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Carrera:</span>
+            <?= $this->escapeHtml($actividad->carrera_nombre ?? '—') ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Tipo de participación:</span>
+            <?= ucfirst($actividad->tipo_participacion) ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Créditos:</span>
+            <?= number_format($actividad->credito, 2) ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Fecha de creación:</span>
+            <?= date('d/m/Y H:i', strtotime($actividad->fecha)) ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Estado:</span>
+            <?php if ($actividad->estado == 1): ?>
+                <span class="estado-aprobada">Aprobada</span>
+            <?php elseif ($actividad->estado == 2): ?>
+                <span class="estado-rechazada">No realizada</span>
+            <?php else: ?>
+                <span class="estado-pendiente">Pendiente</span>
+            <?php endif; ?>
+        </div>
+
+        <div class="row">
+            <span class="label">Fecha de resolución:</span>
+            <?php if (!empty($actividad->fecha_resolucion)): ?>
+                <?= date('d/m/Y H:i', strtotime($actividad->fecha_resolucion)) ?>
+            <?php else: ?>
+                Pendiente de resolución
+            <?php endif; ?>
+        </div>
+
+        <?php if ((int)$actividad->estado === 2 && !empty($actividad->motivo_rechazo)): ?>
+            <div class="rechazo-box">
+                <span class="label">Motivo de la actividad no realizada:</span><br>
+                <?= nl2br($this->escapeHtml($actividad->motivo_rechazo)) ?>
+            </div>
+        <?php endif; ?>
+
+    </div>
+
+</body>
+
+</html>

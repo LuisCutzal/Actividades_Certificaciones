@@ -1,0 +1,13 @@
+<div class="container mt-4">
+
+    <!-- Buscar rol -->
+    <?= $this->partial('application/rol/find-rol') ?>
+
+    <hr class="my-4">
+
+    <!-- Listar roles -->
+    <?= $this->partial('application/rol/listar-rol', [
+        'roles' => $roles
+    ]) ?>
+
+</div>

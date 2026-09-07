@@ -1,0 +1,122 @@
+<div class="logs-container">
+    <?php $this->headTitle('Logs del Sistema'); ?>
+
+    <link rel="stylesheet" href="<?= $this->basePath('css/logs.css') ?>">
+    <script src="<?= $this->basePath('js/logs.js') ?>" defer></script>
+
+    <h2 class="mb-4">📜 Logs del Sistema</h2>
+
+    <!-- FILTROS RESPONSIVE -->
+    <form method="get" class="mb-3">
+        <div class="row g-2 align-items-stretch">
+
+            <div class="col-12 col-md-3">
+                <input type="text"
+                    name="entity_type"
+                    class="form-control form-control-lg"
+                    placeholder="ENTIDAD"
+                    value="<?= $this->escapeHtml($entityType ?? '') ?>">
+            </div>
+
+            <div class="col-12 col-md-3">
+                <input type="number"
+                    name="entity_id"
+                    class="form-control form-control-lg"
+                    placeholder="IDENTIFICADOR"
+                    min="1"
+                    step="1"
+                    value="<?= $this->escapeHtml($entityId ?? '') ?>">
+            </div>
+
+            <div class="col-12 col-md-3">
+                <input type="text"
+                    name="action"
+                    class="form-control form-control-lg"
+                    placeholder="ACCIÓN "
+                    value="<?= $this->escapeHtml($action ?? '') ?>">
+            </div>
+
+            <div class="col-12 col-md-3 d-flex gap-2">
+                <button class="btn btn-primary btn-lg flex-fill">
+                    🔍 Buscar
+                </button>
+
+                <a href="/admin/logs"
+                    class="btn btn-outline-secondary btn-lg flex-fill">
+                    Limpiar
+                </a>
+            </div>
+
+        </div>
+    </form>
+
+    <!-- TABLA + PAGINACIÓN EN MISMO CONTENEDOR -->
+    <div class="table-responsive">
+
+        <table id="tablaLogs" class="table table-bordered table-hover align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>CUI</th>
+                    <th>Entidad</th>
+                    <th>Identrificador</th>
+                    <th>Descripción</th>
+                    <th>Acción</th>
+                    <th>Fecha</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($logs as $log): ?>
+                    <?php
+                    $detalle = !empty($log->details)
+                        ? json_decode($log->details, true)
+                        : null;
+                    ?>
+                    <tr>
+                        <td><?= $this->escapeHtml($log->user) ?></td>
+                        <td><?= $this->escapeHtml($log->entity_type) ?></td>
+                        <td><?= (int)$log->entity_id ?></td>
+                        <td><?= $this->escapeHtml($log->description) ?></td>
+                        <td><?= $this->escapeHtml($log->action) ?></td>
+                        <td><?= date('d/m/Y H:i', strtotime($log->created_at)) ?></td>
+
+                        <td>
+                            <?php if ($detalle): ?>
+                                <button
+                                    class="btn-detalles btn btn-sm btn-info"
+                                    data-detalles='<?= $this->escapeHtmlAttr(json_encode($detalle)) ?>'>
+                                    Ver
+                                </button>
+                            <?php else: ?>
+                                —
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+
+        </table>
+
+        <!-- 🔥 PAGINACIÓN DENTRO DEL MISMO BLOQUE -->
+        <div class="d-flex justify-content-center mt-3">
+            <?= $this->partial('application/partials/pagination', [
+                'paginator' => $logs,
+                'query'     => $query
+            ]) ?>
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+    <div id="overlay" class="overlay"></div>
+
+    <div id="detalleCard" class="detalle-card">
+        <span class="cerrar">✖</span>
+
+        <h3>Detalle</h3>
+
+        <pre id="jsonData"></pre>
+    </div>
+</div>

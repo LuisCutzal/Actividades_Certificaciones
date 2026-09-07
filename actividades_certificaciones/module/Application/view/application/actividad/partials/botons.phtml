@@ -1,0 +1,81 @@
+<?php $tipo_id = $this->tipo_id ?? null; ?>
+
+<div class="d-flex flex-wrap justify-content-end align-items-center gap-2 mb-3">
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <?php if (in_array($tipo_id, [2, 4])): ?>
+
+            <a href="/actividades/crearActividad" class="btn btn-primary shadow-sm">
+                ➕ Crear actividad
+            </a>
+
+            <a href="/actividades/crear" class="btn btn-info shadow-sm">
+                ➕ Crear actividad (Historico)
+            </a>
+
+        <?php endif; ?>
+
+    </div>
+
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <?php if ($this->esPendientes === true): ?>
+
+            <?php if (in_array($tipo_id, [2, 4])): ?>
+
+                <div class="btn-group">
+                    <a href="/actividades" class="btn btn-outline-secondary shadow-sm">
+                        📋 Todas
+                    </a>
+                </div>
+
+            <?php else: ?>
+
+                <a href="/actividades/listadoActividades" class="btn btn-outline-secondary shadow-sm">
+                    📋 Todas
+                </a>
+
+            <?php endif; ?>
+
+
+        <?php else: ?>
+
+            <?php if (in_array($tipo_id, [2, 4])): ?>
+
+                <a href="/actividades/pendientes" class="btn btn-warning shadow-sm">
+                    ⏳ Pendientes
+                </a>
+
+            <?php else: ?>
+
+                <a href="/actividades" class="btn btn-warning shadow-sm">
+                    ⏳ Pendientes
+                </a>
+
+            <?php endif; ?>
+
+        <?php endif; ?>
+
+
+        <?php if ($this->esAprobado !== true): ?>
+
+            <a href="/actividades/listaAprobadas" class="btn btn-success shadow-sm">
+                ✅ Aprobadas
+            </a>
+
+        <?php endif; ?>
+
+
+        <?php if ($tipo_id !== 1): ?>
+
+            <a href="/actividades/rechazadas" class="btn btn-danger shadow-sm">
+                ✖ No realizadas
+            </a>
+
+        <?php endif; ?>
+
+    </div>
+
+</div>

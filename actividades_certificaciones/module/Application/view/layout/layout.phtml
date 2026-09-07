@@ -1,0 +1,122 @@
+<?php
+
+/** @var Laminas\View\Renderer\PhpRenderer $this */
+$session  = new \Laminas\Session\Container('user');
+$rol_id   = $session->rol_id ?? null;
+$nombre   = $session->nombre ?? null;
+$apellido = $session->apellido ?? null;
+$usuario = trim(($nombre ?? '') . ' ' . ($apellido ?? ''));
+$permisos = $session->permisos ?? [];
+?>
+
+<?= $this->doctype() ?>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+
+    <?= $this->headTitle('Sistema de Créditos Extracurriculares - Facultad de Arquitectura ')
+        ->setSeparator(' - ')
+        ->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge') ?>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="<?= $this->basePath('css/style.css') ?>">
+</head>
+
+<body>
+
+    <?php if ($usuario): ?>
+        <!-- 🟦 Sidebar responsive -->
+        <aside id="sidebar"
+            class="sidebar offcanvas-lg offcanvas-start bg-dark text-white"
+            tabindex="-1">
+
+            <!-- TÍTULO SIEMPRE VISIBLE -->
+            <div class="px-3 pt-3 pb-2 border-bottom border-secondary
+                    d-flex justify-content-between align-items-center">
+
+                <span class="text-uppercase fw-bold">
+                    Menú
+                </span>
+
+                <!-- Botón cerrar SOLO en mobile -->
+                <button type="button"
+                    class="btn-close btn-close-white d-lg-none"
+                    data-bs-dismiss="offcanvas"
+                    data-bs-target="#sidebar">
+                </button>
+            </div>
+
+            <!-- CONTENIDO -->
+            <div class="offcanvas-body p-3">
+
+                <?= $this->partial('layout/sidebar', [
+
+                    'usuario' => $usuario,
+                    'permisos' => $permisos
+                ]) ?>
+
+            </div>
+        </aside>
+    <?php endif; ?>
+
+    <!-- 🟧 Contenido principal -->
+    <div class="flex-grow-1">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-dark bg-dark px-3">
+            <?php if ($usuario): ?>
+                <!-- Botón hamburguesa SOLO en mobile -->
+                <button class="btn btn-outline-light d-lg-none me-2"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebar">
+                    ☰
+                </button>
+            <?php endif; ?>
+
+            <span class="navbar-brand brand-responsive">
+
+                Sistema de Créditos Extracurriculares
+                <span class="mobile-break d-md-none"><br></span>
+                <span class="d-none d-md-inline"> - </span>
+                Facultad de Arquitectura
+
+            </span>
+
+            <ul class="navbar-nav flex-row ms-auto">
+                <?php if ($usuario): ?>
+                    <li class="nav-item ms-3">
+                        <span class="nav-link text-white-50">
+                            👤 <?= $this->escapeHtml($usuario) ?>
+                        </span>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link text-white"
+                            href="<?= $this->url('logout') ?>">
+                            Salir
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+
+        <!-- Contenido dinámico -->
+        <main class="container my-4">
+            <?= $this->content ?>
+        </main>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

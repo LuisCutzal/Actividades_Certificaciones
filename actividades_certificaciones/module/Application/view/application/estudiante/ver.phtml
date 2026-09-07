@@ -1,0 +1,91 @@
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold mb-0">
+            Estudiante: <?= $this->escapeHtml($estudiante->nombre) ?>
+        </h2>
+
+        <a href="/estudiantes" class="btn btn-outline-secondary">
+            ← Volver
+        </a>
+    </div>
+
+    <p class="text-muted">
+        Carnet: <strong><?= $estudiante->carnet ?></strong>
+    </p>
+
+        <!-- Filtro de búsqueda -->
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body p-3">
+            <form method="get" class="row g-2 align-items-center">
+                <div class="col-md-8">
+                    <input
+                        type="text"
+                        name="buscar"
+                        class="form-control form-control-lg"
+                        placeholder="Buscar por Organizador o Actividad"
+                        value="<?= $this->escapeHtml($this->buscar ?? '') ?>">
+                </div>
+                <div class="col-md-4 d-flex gap-2">
+                    <button class="btn btn-primary w-100 btn-lg">🔍 Buscar</button>
+                    <a href="<?= $this->url('estudiantes/ver', ['carnet' => $estudiante->carnet]) ?>"
+                        class="btn btn-outline-secondary w-100 btn-lg">
+                        Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Actividades registradas</h4>
+
+    <?php if ($actividades->count() === 0): ?>
+        <div class="alert alert-info">
+            Este estudiante no tiene actividades registradas.
+        </div>
+    <?php else: ?>
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Actividad</th>
+                        <th>Fecha</th>
+                        <th>Créditos</th>
+                        <th>Organizador</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($actividades as $a): ?>
+                        <tr>
+                            <td><?= $this->escapeHtml($a->actividad_nombre) ?></td>
+                            <td><?= date('d/m/Y', strtotime($a->fecha)) ?></td>
+                            <td><?= $a->credito ?></td>
+                            <td><?= $this->escapeHtml($a->organizador_nombre ?? '—') ?></td>
+
+                            <td>
+                                <?php if ((int)$a->estado === 1): ?>
+                                    <span class="badge bg-success">Aprobada</span>
+                                <?php elseif ((int)$a->estado === 2): ?>
+                                    <span class="badge bg-danger">No realizada</span>
+                                <?php else: ?>
+                                    <span class="badge bg-warning text-dark">
+                                        Pendiente
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+            <?= $this->partial('application/partials/pagination', [
+                'paginator' => $actividades,
+                'query' => [
+                    'buscar' => $buscar
+                ]
+            ]) ?>
+        </div>
+    <?php endif; ?>
+
+</div>

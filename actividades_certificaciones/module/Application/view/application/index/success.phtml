@@ -1,0 +1,35 @@
+<?php foreach ($this->flashMessenger()->getSuccessMessages() as $msg): ?>
+
+    <div class="alert alert-success alert-floating">
+        <?= $this->escapeHtml($msg) ?>
+    </div>
+
+<?php endforeach; ?>
+
+
+<?php foreach ($this->flashMessenger()->getErrorMessages() as $msg): ?>
+
+    <div class="alert alert-danger alert-floating">
+        <?= $this->escapeHtml($msg) ?>
+    </div>
+
+<?php endforeach; ?>
+
+
+<style>
+.alert-floating {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 200px;
+    animation: fadeOut 0.5s ease-in-out 5s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+</style>

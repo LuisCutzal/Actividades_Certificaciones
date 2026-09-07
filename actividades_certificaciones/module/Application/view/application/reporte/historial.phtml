@@ -1,0 +1,145 @@
+<link rel="stylesheet" href="<?= $this->basePath('css/historial.css') ?>">
+<script src="<?= $this->basePath('js/historial.js') ?>" defer></script>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0 fw-bold">📄 Historial de Reportes</h4>
+        </div>
+
+        <form method="get" class="mb-4">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-light">🔍</span>
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Buscar por correlativo..."
+                    value="<?= $this->escapeHtml($buscar ?? '') ?>">
+                <button class="btn btn-primary px-4" type="submit">Buscar</button>
+                <a href="/reportes/historial" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-sm align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Correlativo</th>
+                        <th class="text-center">Ver</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($reportes as $r): ?>
+
+                        <?php
+                        /** Ocultar Reporte (Admin) para roles 5,6,7 */
+
+
+                        $tipoTexto = match ($r->tipo) {
+                            0 => 'Actividad (Admin)',
+                            1 => 'Reporte (Admin)',
+                            2 => 'Constancia (Pend/Aprob)',
+                            3 => 'Constancia Aprobados',
+                            default => 'Desconocido',
+                        };
+
+                        $detalle = htmlspecialchars(json_encode([
+                            'tipo'        => $tipoTexto,
+                            'estudiante'  => $r->estudiante_nombre ?: '—',
+                            'actividad'   => $r->actividad_nombre ?: '—',
+                            'generadoPor' => $r->generado_por_nombre,
+                            'rol'         => $r->rol_generador_nombre,
+                            'correlativo' => $r->correlativo,
+                        ]), ENT_QUOTES);
+
+                        /** Ocultar botón SOLO si no hay datos */
+                        $ocultarBoton = false;
+
+                        ?>
+
+                        <tr>
+                            <td><?= $tipoTexto ?></td>
+
+                            <td class="fw-semibold text-primary">
+                                <?= $this->escapeHtml($r->correlativo) ?>
+                            </td>
+
+                            <td class="text-center">
+                                <button
+                                    class="btn btn-sm btn-outline-primary btn-detalles"
+                                    data-detalles="<?= $detalle ?>">
+                                    👁 Ver
+                                </button>
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                    <?php if (empty($reportes)): ?>
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                No se encontraron reportes
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+            <!-- Paginación -->
+            <?= $this->partial('application/partials/pagination', [
+                'paginator' => $reportes,
+                'query'     => [
+                    'q' => $buscar ?? ''
+                ]
+            ]) ?>
+        </div>
+
+    </div>
+</div>
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay"></div>
+
+<!-- SIDEBAR DESLIZANTE -->
+<div id="detalleCard" class="detalle-card">
+
+    <span class="cerrar">✖</span>
+
+    <h3>Detalle del Reporte</h3>
+
+    <p>
+        <strong>Tipo:</strong>
+        <span id="dTipo"></span>
+    </p>
+
+    <p id="filaEstudiante">
+        <strong>Estudiante:</strong>
+        <span id="dEstudiante"></span>
+    </p>
+
+    <p id="filaActividad">
+        <strong>Actividad:</strong>
+        <span id="dActividad"></span>
+    </p>
+
+    <hr>
+
+    <p>
+        <strong>Generado por el Usuario:</strong>
+        <span id="dGeneradoPor"></span>
+    </p>
+
+    <p>
+        <strong>Rol:</strong>
+        <span id="dRol"></span>
+    </p>
+
+    <p>
+        <strong>Correlativo:</strong>
+        <span id="dCorrelativo"></span>
+    </p>
+
+</div>

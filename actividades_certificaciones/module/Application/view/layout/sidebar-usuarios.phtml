@@ -1,0 +1,65 @@
+<?php
+
+$session = new \Laminas\Session\Container('user');
+
+$userId = $session->userId ?? null;
+$tipoId = $session->tipo_id ?? null;
+
+?>
+
+<ul class="nav flex-column gap-1">
+
+    <!-- SOLO tipo_id = 4 -->
+    <?php if ($tipoId == 4): ?>
+        <li class="nav-item">
+            <a href="/reportes/auditoria/asociacion"
+               class="nav-link text-white">
+                📋 Auditoría de Estudiantes
+            </a>
+        </li>
+    <?php endif; ?>
+
+
+    <!-- TODOS (2,3,4) -->
+    <li class="nav-item">
+        <a href="/dashboard"
+           class="nav-link text-white mt-3">
+            📊 Dashboard
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="/actividades"
+           class="nav-link text-white">
+            🏠 Actividades
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="/usuario/editar/<?= $this->escapeHtml($userId) ?>"
+           class="nav-link text-white">
+            ✏️ Modificar Perfil
+        </a>
+    </li>
+
+
+    <!-- tipo_id = 2 y 4 -->
+    <?php if (in_array($tipoId, [2, 4])): ?>
+        <li class="nav-item">
+            <a href="/estudiantes"
+               class="nav-link text-white mt-3">
+                👥 Listado de Estudiantes
+            </a>
+        </li>
+    <?php endif; ?>
+
+    <?php if (in_array($tipoId, [4])): ?>
+        <li class="nav-item">
+            <a href="/reportes/estudiantes/plantilla"
+               class="nav-link text-white mt-3">
+                ⚙️ Plantillas
+            </a>
+        </li>
+    <?php endif; ?>
+
+</ul>

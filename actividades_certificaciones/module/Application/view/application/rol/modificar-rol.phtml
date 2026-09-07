@@ -1,0 +1,193 @@
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold mb-0">
+            Editar Rol
+        </h2>
+
+        <a href="/admin/roles/listar"
+            class="btn btn-outline-secondary btn-sm">
+            ← Volver al listado
+        </a>
+
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form method="post">
+
+                <!-- Nombre del rol -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Nombre del Rol
+                    </label>
+
+                    <input
+                        type="text"
+                        name="nombre"
+                        class="form-control"
+                        value="<?= $this->escapeHtml($rol->nombre) ?>"
+                        required>
+                </div>
+
+                <!-- Extensión -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Extensión
+                    </label>
+
+                    <select
+                        name="extension"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            -- Selecciona una extensión --
+                        </option>
+
+                        <?php foreach ($this->extensiones as $ext): ?>
+
+                            <option
+                                value="<?= $ext->extension ?>"
+                                <?= ($rol->extension == $ext->extension)
+                                    ? 'selected'
+                                    : '' ?>>
+
+                                <?= $this->escapeHtml($ext->nombre) ?>
+
+                            </option>
+
+                        <?php endforeach; ?>
+
+                    </select>
+
+                </div>
+
+                <!-- Permisos -->
+                <div class="mb-4">
+
+                    <h5 class="fw-semibold mb-3">
+                        Permisos del Rol
+                    </h5>
+
+                    <div class="row">
+
+                        <?php foreach ($permisos as $permiso): ?>
+
+                            <?php
+                            $checkedPermiso = in_array(
+                                $permiso->id,
+                                $permisosRol ?? []
+                            ) ? 'checked' : '';
+                            ?>
+
+                            <div class="col-md-6 mb-2">
+
+                                <div class="form-check">
+
+                                    <input
+                                        type="checkbox"
+                                        name="permisos[]"
+                                        value="<?= $permiso->id ?>"
+                                        class="form-check-input permiso-check"
+                                        id="permiso<?= $permiso->id ?>"
+                                        <?= $checkedPermiso ?>>
+
+                                    <label
+                                        class="form-check-label"
+                                        for="permiso<?= $permiso->id ?>">
+
+                                        <?= $this->escapeHtml(
+                                            ucwords(str_replace('_', ' ', $permiso->nombre))
+                                        ) ?>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                </div>
+
+                <!-- Carreras -->
+                <div id="bloqueCarreras" style="display:none">
+
+                    <h5 class="mt-4 mb-3 text-primary">
+                        Carreras permitidas
+                    </h5>
+
+                    <div class="row">
+
+                        <?php foreach ($carreras as $carrera): ?>
+
+                            <?php
+                            $checkedCarrera = in_array(
+                                $carrera->carrera,
+                                $carrerasRol ?? []
+                            ) ? 'checked' : '';
+                            ?>
+
+                            <div class="col-md-6 mb-2">
+
+                                <div class="form-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="carreras[]"
+                                        value="<?= $carrera->carrera ?>"
+                                        id="carrera<?= $carrera->carrera ?>"
+                                        <?= $checkedCarrera ?>>
+
+                                    <label
+                                        class="form-check-label"
+                                        for="carrera<?= $carrera->carrera ?>">
+
+                                        <?= $this->escapeHtml($carrera->nombre) ?>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a href="/admin/roles/listar"
+                        class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+
+                    <button class="btn btn-primary">
+                        💾 Actualizar Rol
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="<?= $this->basePath('js/modificar-rol.js') ?>" defer></script>

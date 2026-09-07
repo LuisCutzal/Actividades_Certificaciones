@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<?php
+$tipo_id = $this->tipo_id;
+?>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="<?= $this->basePath('css/dashboard.css') ?>">
+</head>
+
+<body>
+
+    <div class="filters">
+
+        <select id="yearFilter">
+
+            <option value="">
+                Todos los años
+            </option>
+
+            <?php
+            $currentYear = date('Y');
+
+            for ($year = $currentYear; $year >= 2000; $year--):
+                // aca se puede cambiar esta fecha para ajustarlo
+            ?>
+
+                <option
+                    value="<?= $year ?>"
+
+                    <?= $year == $currentYear
+                        ? 'selected'
+                        : ''
+                    ?>>
+                    <?= $year ?>
+                </option>
+
+            <?php endfor; ?>
+
+        </select>
+
+        <select id="monthStart">
+
+            <option value="">
+                Mes inicio
+            </option>
+
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+
+        </select>
+
+        <select id="monthEnd">
+
+            <option value="">
+                Mes fin
+            </option>
+
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+
+        </select>
+
+        <input
+            type="date"
+            id="dateStart" />
+
+        <input
+            type="date"
+            id="dateEnd" />
+
+        <button id="applyFilters">
+            Aplicar filtros
+        </button>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- Fila 1 -->
+        <div class="card">
+            <h3>Aprobadas vs Pendientes vs No realizadas</h3>
+            <canvas id="estadoChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Actividades por mes</h3>
+            <canvas id="mesChart"></canvas>
+        </div>
+
+
+        <div class="card full">
+            <h3>Top actividades aprobadas con más estudiantes</h3>
+            <canvas id="topChart"></canvas>
+        </div>
+
+        <!-- <div class="card full">
+            <h3>👤 Usuarios con más actividades</h3>
+            <canvas id="usuariosChart"></canvas>
+        </div> -->
+        <?php if (in_array($tipo_id, [1, 2, 3])): ?>
+            <div class="card full">
+                <h3>🎓 Actividades por carrera</h3>
+                <canvas id="carreraChart"></canvas>
+            </div>
+        <?php endif; ?>
+
+    </div>
+
+    <!-- JS -->
+    <script src="<?= $this->basePath('js/dashboard.js') ?>" defer></script>
+
+</body>
+
+</html>

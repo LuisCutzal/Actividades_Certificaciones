@@ -1,0 +1,144 @@
+<script src="<?= $this->basePath('js/actividades-form.js') ?>" defer></script>
+
+<div class="container py-5 d-flex justify-content-center">
+    <div class="card shadow-sm p-4" style="max-width: 600px; width: 100%;">
+        <h2 class="text-center fw-bold mb-4">Crear Nueva Actividad (Historico)</h2>
+
+        <!-- Mensajes -->
+        <?php if (!empty($this->errorMessage)): ?>
+            <div class="alert alert-danger shadow-sm rounded" style="white-space: pre-line;">
+                <?= $this->escapeHtml($this->errorMessage) ?>
+            </div>
+        <?php endif; ?>
+        <?php if (!empty($this->successMessage)): ?>
+            <div class="alert alert-success shadow-sm rounded"><?= $this->successMessage ?></div>
+        <?php endif; ?>
+
+        <form method="post" action="" enctype="multipart/form-data">
+
+            <!-- Nombre de la actividad -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Nombre de la actividad</label>
+                <input
+                    type="text"
+                    name="nombre"
+                    class="form-control form-control-lg"
+                    required
+                    placeholder="Ej: Taller de Arquitectura Moderna">
+            </div>
+
+            <!-- Fecha -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Fecha</label>
+                <input
+                    type="date"
+                    name="fecha"
+                    class="form-control form-control-lg"
+                    required
+                    value="<?= date('Y-m-d') ?>">
+            </div>
+
+            <?php
+            // Nombre del rol del usuario logueado
+            $nombreRol = $roles[$rol_id] ?? 'Desconocido';
+
+            // Carrera hardcodeada
+
+            ?>
+            <?php if ($carreraAsignadaId !== null): ?>
+
+                <input type="hidden" name="organizador" value="<?= $rol_id ?>">
+                <input type="hidden" name="carrera" value="<?= $carreraAsignadaId ?>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Organizador</label>
+                    <input class="form-control" value="<?= $nombreRol ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Carrera</label>
+                    <input class="form-control" value="<?= $carreraAsignadaNombre ?>" disabled>
+                </div>
+
+            <?php else: ?>
+
+                <input type="hidden" name="organizador" value="<?= $rol_id ?>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Organizador</label>
+                    <input class="form-control" value="<?= $nombreRol ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Carrera</label>
+                    <select name="carrera" class="form-select form-select-lg" required>
+                        <option value="">-- Selecciona --</option>
+                        <?php foreach ($carreras as $id => $nombre): ?>
+                            <option value="<?= $id ?>"><?= $nombre ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+            <?php endif; ?>
+
+
+            <!-- Créditos -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Cantidad de Créditos</label>
+                <input
+                    type="number"
+                    name="credito"
+                    class="form-control form-control-lg"
+                    step="0.5"
+                    min="0.5"
+                    max="3"
+                    required
+                    value="<?= isset($actividad) ? $this->escapeHtml($actividad->credito) : '' ?>">
+            </div>
+
+            <!-- Tipo de participación -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Tipo de participación</label>
+                <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tipo_participacion" id="tipo_lista" value="lista" checked>
+                        <label class="form-check-label" for="tipo_lista">Lista de estudiantes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tipo_participacion" id="tipo_individual" value="individual">
+                        <label class="form-check-label" for="tipo_individual">Estudiante individual</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista CSV -->
+            <div class="mb-3" id="campo-lista">
+                <label class="form-label fw-semibold">Listado de asistencia en "EXCEL"</label>
+                <input type="file" name="lista_asistencia" class="form-control form-control-lg" accept="*">
+            </div>
+
+            <!-- Estudiante individual -->
+            <div class="mb-3 d-none" id="campo-individual">
+                <label class="form-label fw-semibold">Carné del estudiante</label>
+                <input
+                    type="text"
+                    name="estudiante_individual"
+                    class="form-control form-control-lg"
+                    pattern="[0-9]{9}"
+                    maxlength="9"
+                    inputmode="numeric"
+                    title="El carnet debe contener exactamente 9 dígitos numéricos"
+                    oninvalid="this.setCustomValidity('El carnet debe contener exactamente 9 dígitos numéricos')"
+                    oninput="this.setCustomValidity('')"
+                    placeholder="Ej: 202012345">
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary btn-lg w-50" type="submit">Crear Actividad Historica</button>
+                <a href="/actividades" class="btn btn-outline-secondary btn-lg w-50">Cancelar</a>
+            </div>
+
+        </form>
+    </div>
+</div>

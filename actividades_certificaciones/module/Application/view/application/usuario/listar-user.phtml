@@ -1,0 +1,119 @@
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold mb-0">Lista de Usuarios</h2>
+
+        <div class="d-flex gap-2">
+
+            <a href="/admin/crearUsuario"
+                class="btn btn-primary btn-sm">
+                + Nuevo Usuario
+            </a>
+
+        </div>
+
+    </div>
+
+    <?php if (empty($usuarios)): ?>
+
+        <p class="text-center text-muted fs-5">
+            No hay usuarios registrados.
+        </p>
+
+    <?php else: ?>
+
+        <div class="table-responsive shadow-sm rounded">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark text-uppercase small">
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <?php foreach ($usuarios as $u): ?>
+
+                        <tr>
+
+                            <!-- Usuario -->
+                            <td class="fw-semibold">
+                                <?= $this->escapeHtml($u['nombre'] . ' ' . $u['apellido']) ?>
+                            </td>
+
+                            <!-- Rol -->
+                            <td>
+                                <?= $this->escapeHtml($u['rol_nombre'] ?? $u['rol_id']) ?>
+                            </td>
+
+                            <!-- Estado -->
+                            <td>
+
+                                <?php if ($u['estado'] == 1): ?>
+                                    <span class="badge bg-success">Activo</span>
+                                <?php else: ?>
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                <?php endif; ?>
+
+                            </td>
+
+                            <!-- Acciones -->
+                            <td class="text-center">
+
+                                <div class="d-flex justify-content-center flex-wrap gap-1">
+
+                                    <?php if ($u['estado'] == 1): ?>
+
+                                        <a href="/usuario/editar/<?= $u['id'] ?>"
+                                            class="btn btn-sm btn-warning shadow-sm"
+                                            title="Editar usuario">
+                                            ✏️
+                                        </a>
+
+                                        <a href="/admin/usuarios/eliminar/<?= $u['id'] ?>"
+                                            class="btn btn-sm btn-danger shadow-sm"
+                                            onclick="return confirm('¿Desea eliminar al usuario <?= $this->escapeJs($u['nombre'] . ' ' . $u['apellido']) ?>?')"
+                                            title="Eliminar usuario">
+                                            🗑️
+                                        </a>
+
+                                    <?php else: ?>
+
+                                        <a href="/admin/usuarios/activar/<?= $u['id'] ?>"
+                                            class="btn btn-sm btn-success shadow-sm"
+                                            onclick="return confirm('¿Desea activar al usuario <?= $this->escapeJs($u['nombre'] . ' ' . $u['apellido']) ?>?')"
+                                            title="Activar usuario">
+                                            ✔ Activar
+                                        </a>
+
+                                    <?php endif; ?>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+
+            <!-- Paginación -->
+            <?= $this->partial('application/partials/pagination', [
+                'paginator' => $usuarios
+            ]) ?>
+
+        </div>
+
+    <?php endif; ?>
+
+</div>

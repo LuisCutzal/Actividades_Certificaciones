@@ -1,0 +1,180 @@
+<div class="container py-5" style="max-width:600px">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold mb-0">
+            Crear nuevo rol
+        </h2>
+
+        <a href="/admin/roles/listar"
+            class="btn btn-outline-secondary btn-sm">
+            ← Volver al listado
+        </a>
+
+    </div>
+
+    <!-- Mensajes -->
+    <?php if (!empty($this->errorMessage)): ?>
+        <div class="alert alert-danger">
+            <?= $this->errorMessage ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($this->successMessage)): ?>
+        <div class="alert alert-success">
+            <?= $this->successMessage ?>
+        </div>
+    <?php endif; ?>
+
+    <form method="post">
+
+        <!-- Nombre del rol -->
+        <div class="mb-4">
+
+            <label class="form-label">
+                Nombre del rol
+            </label>
+
+            <input
+                type="text"
+                name="nombre"
+                class="form-control"
+                required>
+
+        </div>
+
+        <!-- Tipo -->
+        <div class="mb-4">
+
+            <label class="form-label">
+                Tipo de rol
+            </label>
+
+            <select
+                name="tipo_id"
+                class="form-select"
+                required>
+
+                <option value="">
+                    -- Selecciona un tipo --
+                </option>
+
+                <?php foreach ($this->tipos as $tipo): ?>
+
+                    <option value="<?= $tipo->id ?>">
+                        <?= $this->escapeHtml($tipo->nombre) ?>
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+        </div>
+
+        <!-- Extensión -->
+        <div class="mb-4">
+
+            <label class="form-label">
+                Extensión
+            </label>
+
+            <select
+                name="extension"
+                class="form-select"
+                required>
+
+                <option value="">
+                    -- Selecciona una extensión --
+                </option>
+
+                <?php foreach ($this->extensiones as $ext): ?>
+
+                    <option value="<?= $ext->extension ?>">
+
+                        <?= $this->escapeHtml($ext->nombre) ?>
+
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+        </div>
+
+        <!-- Permisos -->
+        <h5 class="mb-3 text-primary">
+            Permisos
+        </h5>
+
+        <?php foreach ($this->permisos as $permiso): ?>
+
+            <div class="form-check mb-2">
+
+                <input
+                    class="form-check-input permiso-check"
+                    type="checkbox"
+                    name="permisos[]"
+                    value="<?= $permiso->id ?>"
+                    id="permiso<?= $permiso->id ?>">
+
+                <label
+                    class="form-check-label"
+                    for="permiso<?= $permiso->id ?>">
+
+                    <?= $this->escapeHtml($permiso->descripcion) ?>
+
+                </label>
+
+            </div>
+
+        <?php endforeach; ?>
+
+        <!-- Carreras -->
+        <div id="bloqueCarreras" style="display:none">
+
+            <h5 class="mt-4 mb-3 text-primary">
+                Carreras permitidas
+            </h5>
+
+            <?php foreach ($this->carreras as $carrera): ?>
+
+                <div class="form-check">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="carreras[]"
+                        value="<?= $carrera->carrera ?>"
+                        id="carrera<?= $carrera->id ?>">
+
+                    <label
+                        class="form-check-label"
+                        for="carrera<?= $carrera->id ?>">
+
+                        <?= $this->escapeHtml($carrera->nombre) ?>
+
+                    </label>
+
+                </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+        <!-- Botón -->
+        <div class="d-grid mt-4">
+
+            <button class="btn btn-primary btn-lg">
+                💾 Crear rol
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- JS -->
+
+<script src="<?= $this->basePath('js/crear-rol.js') ?>" defer></script>

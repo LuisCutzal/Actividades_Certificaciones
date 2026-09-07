@@ -1,0 +1,256 @@
+<?= $this->partial('application/index/success') ?>
+<form method="POST" enctype="multipart/form-data">
+
+    <!-- HEADER -->
+    <div class="row align-items-center mb-3">
+
+        <div class="col-md-8 col-12 mb-2 mb-md-0">
+
+            <h3 style="margin:0;">
+                Configuración de Plantilla PDF
+            </h3>
+
+        </div>
+
+        <div class="col-md-4 col-12 text-md-right text-left">
+
+            <button
+                type="submit"
+                class="btn btn-primary btn-block btn-md-auto">
+                Guardar Plantilla
+            </button>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- INFO -->
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Carrera:</strong>
+                <?= $this->escapeHtml($carrera->nombre) ?>
+            </p>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Extensión:</strong>
+                <?= $this->escapeHtml($extension) ?>
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- CAMPOS -->
+    <div class="form-group">
+
+        <label>Título</label>
+
+        <textarea
+            name="titulo"
+            class="form-control"
+            rows="3"
+            style="resize:none;"><?= $this->escapeHtml($plantilla->titulo) ?></textarea>
+
+    </div>
+
+    <hr>
+
+    <h5 class="mb-3">Configuración del Acta</h5>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Punto</label>
+                <input
+                    type="text"
+                    name="punto_acta"
+                    class="form-control"
+                    value="<?= $this->escapeHtml($plantilla->punto_acta ?? '') ?>">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Inciso</label>
+                <input
+                    type="text"
+                    name="inciso_acta"
+                    class="form-control"
+                    value="<?= $this->escapeHtml($plantilla->inciso_acta ?? '') ?>">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>No. Acta</label>
+                <input
+                    type="text"
+                    name="numero_acta"
+                    class="form-control"
+                    value="<?= $this->escapeHtml($plantilla->numero_acta ?? '') ?>">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Fecha Acta</label>
+                <input
+                    type="text"
+                    name="fecha_acta"
+                    class="form-control"
+                    value="<?= $this->escapeHtml($plantilla->fecha_acta ?? '') ?>">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label>Texto de la Constancia</label>
+
+        <textarea
+            id="texto_constancia"
+            name="texto_constancia"
+            class="form-control"
+            rows="4"
+            style="resize:none;"><?= $this->escapeHtml($plantilla->texto_constancia ?? '') ?></textarea>
+
+        <div class="mb-2">
+            <small class="text-muted d-block mb-2">
+                Insertar datos automáticos
+            </small>
+
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{nombre}">Nombre</button>
+
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{carne}">Carné</button>
+
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{creditos}">Créditos</button>
+            
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{punto}">Punto</button>
+
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{inciso}">Inciso</button>
+
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{acta}">Acta</button>
+
+            <button type="button" class="btn btn-sm btn-outline-primary insertar-variable" data-variable="{fecha_acta}">Fecha Acta</button>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="form-group">
+
+        <label>Texto Firma</label>
+
+        <input
+            type="text"
+            name="texto_firma"
+            class="form-control"
+            value="<?= $this->escapeHtml($plantilla->texto_firma) ?>">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Institución</label>
+
+        <input
+            type="text"
+            name="institucion"
+            class="form-control"
+            value="<?= $this->escapeHtml($plantilla->institucion) ?>">
+
+    </div>
+
+    <hr>
+
+    <!-- ARTES -->
+    <div class="row">
+
+        <!-- ARTE CONTENIDO -->
+        <div class="col-md-6 col-12">
+
+            <div class="form-group">
+
+                <label>Arte Contenido</label>
+
+                <input
+                    type="file"
+                    name="arte_contenido"
+                    class="form-control"
+                    accept=".png,.jpg,.jpeg">
+
+                <?php if (!empty($plantilla->arte_contenido)): ?>
+
+                    <br>
+
+                    <!-- <small>
+                        Archivo actual:
+                        <?= $this->escapeHtml($plantilla->arte_contenido) ?>
+                    </small> -->
+
+                    <br><br>
+
+                    <img
+                        src="/uploads/plantillas_pdf/<?= $this->escapeHtml($plantilla->arte_contenido) ?>"
+                        class="img-fluid"
+                        style="border:1px solid #ccc;">
+
+                <?php endif; ?>
+
+            </div>
+
+        </div>
+
+        <!-- ARTE FINAL -->
+        <div class="col-md-6 col-12">
+
+            <div class="form-group">
+
+                <label>Arte Final</label>
+
+                <input
+                    type="file"
+                    name="arte_final"
+                    class="form-control"
+                    accept=".png,.jpg,.jpeg">
+
+                <?php if (!empty($plantilla->arte_final)): ?>
+
+                    <br>
+
+                    <!-- <small>
+                        Archivo actual:
+                        <?= $this->escapeHtml($plantilla->arte_final) ?>
+                    </small> -->
+
+                    <br><br>
+
+                    <img
+                        src="/uploads/plantillas_pdf/<?= $this->escapeHtml($plantilla->arte_final) ?>"
+                        class="img-fluid"
+                        style="border:1px solid #ccc;">
+
+                <?php endif; ?>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+<script src="<?= $this->basePath('js/datos_automaticos_plantilla_pdf.js') ?>" defer></script>

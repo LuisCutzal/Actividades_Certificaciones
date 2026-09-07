@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">📄 Reporte de Actividad</h1>
+
+    <a href="<?= $this->url('reportes/actividades') ?>" class="btn btn-secondary">
+        ← Volver al listado
+    </a>
+</div>
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h4 class="card-title mb-3">
+            <?= $this->escapeHtml($actividad->nombre) ?>
+        </h4>
+
+        <!-- BOTONES PDF -->
+        <div class="d-flex gap-2 mb-4">
+            <a href="<?= $this->url('reportes/actividad-pdf', ['id' => $actividad->id]) ?>"
+                class="btn btn-danger"
+                target="_blank">
+                📄 PDF – Detalle de actividad
+            </a>
+
+            <a href="<?= $this->url('reportes/actividad-participantes-pdf', ['id' => $actividad->id]) ?>"
+                class="btn btn-primary"
+                target="_blank">
+                👥 PDF – Lista de estudiantes
+            </a>
+        </div>
+
+        <hr>
+
+        <p><strong>Organizador:</strong>
+            <?= $this->escapeHtml($actividad->organizador_nombre ?? 'N/A') ?>
+        </p>
+
+        <p><strong>Carrera:</strong>
+            <?= $this->escapeHtml($actividad->carrera_nombre ?? '—') ?>
+        </p>
+
+        <p><strong>Tipo de participación:</strong>
+            <?= ucfirst($actividad->tipo_participacion) ?>
+        </p>
+
+        <p><strong>Créditos:</strong>
+            <?= number_format($actividad->credito, 2) ?>
+        </p>
+
+        <p><strong>Fecha de creación:</strong>
+            <?= date('d/m/Y H:i', strtotime($actividad->fecha)) ?>
+        </p>
+
+        <p><strong>Estado:</strong>
+            <?php if ($actividad->estado == 1): ?>
+                <span class="badge bg-success">Aprobada</span>
+            <?php elseif ($actividad->estado == 2): ?>
+                <span class="badge bg-danger">No realizada</span>
+            <?php else: ?>
+                <span class="badge bg-warning text-dark">Pendiente</span>
+            <?php endif; ?>
+        </p>
+
+        <p><strong>Fecha de resolución:</strong>
+            <?php if (!empty($actividad->fecha_resolucion)): ?>
+                <?= date('d/m/Y H:i', strtotime($actividad->fecha_resolucion)) ?>
+            <?php else: ?>
+                <span class="text-muted">Pendiente de resolución</span>
+            <?php endif; ?>
+        </p>
+
+        <?php if ((int)$actividad->estado === 2 && !empty($actividad->motivo_rechazo)): ?>
+            <hr>
+            <p><strong>Motivo de la actividad no realizada:</strong></p>
+            <div class="alert alert-danger">
+                <?= nl2br($this->escapeHtml($actividad->motivo_rechazo)) ?>
+            </div>
+        <?php endif; ?>
+
+    </div>
+</div>

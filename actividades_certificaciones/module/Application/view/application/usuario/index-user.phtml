@@ -1,0 +1,11 @@
+<div class="container mt-4">
+
+    <!-- Buscar usuario -->
+    <?= $this->partial('application/usuario/find-user') ?>
+
+    <hr class="my-4">
+
+    <!-- Listar usuarios -->
+    <?= $this->partial('application/usuario/listar-user', ['usuarios' => $usuarios]) ?>
+
+</div>

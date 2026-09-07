@@ -1,0 +1,167 @@
+<div class="container py-4">
+
+    <?php if ($this->flashMessenger()->hasWarningMessages()): ?>
+        <?php foreach ($this->flashMessenger()->getWarningMessages() as $msg): ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <?= $this->escapeHtml($msg) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($this->flashMessenger()->hasSuccessMessages()): ?>
+        <?php foreach ($this->flashMessenger()->getSuccessMessages() as $msg): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $this->escapeHtml($msg) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Listado de los Estudiantes</h2>
+
+        <a href="/actividades" class="btn btn-outline-secondary">
+            ⬅ Volver
+        </a>
+    </div>
+    <!-- BUSCADOR -->
+    <form method="get" action="/estudiantes/buscar" class="mb-4">
+        <div class="row g-2 align-items-stretch">
+            <div class="col-md-8">
+                <input type="text"
+                    name="q"
+                    class="form-control form-control-lg"
+                    placeholder="Buscar por nombre o carnet"
+                    value="<?= $this->escapeHtml($this->query ?? '') ?>">
+            </div>
+
+            <div class="col-md-4 d-flex gap-2">
+                <button class="btn btn-primary btn-lg flex-fill">
+                    🔍 Buscar
+                </button>
+
+                <a href="/estudiantes"
+                    class="btn btn-outline-secondary btn-lg flex-fill">
+                    Limpiar
+                </a>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- LISTADO -->
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Carnet</th>
+                    <th>Nombre</th>
+                    <?php if ($this->tipo_id === 2): ?>
+                        <th>Carrera</th>
+                    <?php endif; ?>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                    <?php if (!in_array($this->tipo_id, [2, 3])): ?>
+                        <th>Constancia</th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->estudiantes as $e): ?>
+                    <tr>
+                        <td><?= $this->escapeHtml($e->carnet) ?></td>
+
+                        <td><?= $this->escapeHtml($e->nombre) ?></td>
+                        <?php if ($this->tipo_id === 2): ?>
+                            <td>
+                                <?= $this->escapeHtml($e->nombre_carrera ?? 'Sin carrera') ?>
+                            </td>
+                        <?php endif; ?>
+
+                        <td>
+
+                            <?php
+
+                            if (!empty($e->fecha_publico) || !empty($e->acta_publico)) {
+
+                                $status = ['Graduado', 'primary'];
+                            } elseif (!empty($e->fecha_privado) || !empty($e->acta_privado)) {
+
+                                $status = ['Privado', 'info text-dark'];
+                            } elseif (!empty($e->fecha_eps)) {
+
+                                $status = ['EPS', 'warning text-dark'];
+                            } elseif (!empty($e->fecha_cierre)) {
+
+                                $status = ['Cerrado', 'warning text-dark'];
+                            } else {
+
+                                $status = ['Activo', 'success'];
+                            }
+
+                            ?>
+
+                            <!-- Estado académico -->
+
+                            <span class="badge bg-<?= $status[1] ?>">
+                                <?= $this->escapeHtml($status[0]) ?>
+                            </span>
+
+                            <!-- Estado de inscripción -->
+
+                            <?php if ($e->anio_inscrito): ?>
+
+                                <span class="badge bg-success ms-1">
+                                    Inscrito <?= $this->escapeHtml($e->anio_inscrito) ?>
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="badge bg-secondary ms-1">
+                                    No inscrito
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
+
+                        <td class="text-nowrap">
+                            <a href="/estudiantes/ver/<?= $e->carnet ?>"
+                                class="btn btn-sm btn-outline-primary me-1">
+                                👁 Ver
+                            </a>
+
+                            <?php if (!in_array($this->tipo_id, [2, 3])): ?>
+                                <a href="/reportes/constancias/estudiante/<?= $e->carnet ?>"
+                                    class="btn btn-sm btn-primary">
+                                    🎓 Historial
+                                </a>
+                            <?php endif; ?>
+                        </td>
+
+                        <?php if (!in_array($this->tipo_id, [2, 3])): ?>
+                            <td>
+                                <a class="btn btn-sm btn-success"
+                                    href="/reportes/auditoria/pdf/estudiante/<?= $e->carnet ?>/aprobadas"
+                                    target="_blank">
+                                    ✅ Aprobadas
+                                </a>
+                                <!-- <br><br>
+                                <a class="btn btn-sm btn-secondary"
+                                    href="/reportes/auditoria/pdf/estudiante/<?= $e->carnet ?>/todas"
+                                    target="_blank">
+                                    📄 Constancia de Cumplimiento
+                                </a>  -->
+                            </td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?= $this->partial('application/partials/pagination', [
+            'paginator' => $estudiantes
+        ]) ?>
+
+    </div>
+</div>

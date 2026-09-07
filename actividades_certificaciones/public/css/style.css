@@ -1,0 +1,493 @@
+/* ===== MOBILE ===== */
+
+@media (max-width: 575px) {
+
+    #sidebar {
+        width: 85vw;
+        max-width: 320px;
+    }
+
+}
+
+/* ===== TABLET ===== */
+
+@media (min-width: 576px) and (max-width: 991px) {
+
+    #sidebar {
+        width: 250px;
+    }
+
+}
+
+/* ===== DESKTOP ===== */
+
+@media (min-width: 992px) {
+
+    /* Layout principal */
+    body {
+        display: flex;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* Sidebar fijo */
+    #sidebar {
+        width: 240px;
+
+        position: sticky;
+        top: 0;
+
+        height: 100vh;
+        overflow-y: auto;
+
+        flex-shrink: 0;
+
+        transform: none !important;
+        visibility: visible !important;
+    }
+
+    /* Contenido principal */
+    .flex-grow-1 {
+
+        flex: 1;
+
+        display: flex;
+        flex-direction: column;
+
+        min-width: 0;
+
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* Quitar fondo oscuro del offcanvas */
+    .offcanvas-backdrop {
+        display: none;
+    }
+
+}
+
+@supports (height: 100dvh) {
+
+    @media (min-width: 992px) {
+
+        #sidebar {
+            height: 100dvh;
+        }
+
+        .flex-grow-1 {
+            height: 100dvh;
+        }
+
+    }
+
+}
+
+/* Navbar texto responsive */
+
+.brand-responsive {
+
+    white-space: normal;   /* permite saltos */
+    line-height: 1.2;
+
+    font-size: 1rem;
+}
+
+/* Móviles */
+
+@media (max-width: 768px) {
+
+    .brand-responsive {
+
+        white-space: normal; /* permite salto */
+        text-align: center;
+        font-size: 0.9rem;
+
+    }
+
+}
+
+/* Tablets */
+@media (min-width: 577px) and (max-width: 991px) {
+
+    .brand-responsive {
+
+        font-size: 0.95rem;
+
+    }
+
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+
+    .brand-responsive {
+
+        font-size: 1rem;
+
+    }
+
+}
+
+.brand-responsive {
+
+    white-space: nowrap; /* PC: una sola línea */
+    line-height: 1.2;
+
+}
+
+/*aca termina lo de index, layout y sidebar*/
+
+
+@media (max-width: 767px) {
+    .card .btn {
+        font-size: 0.9rem;
+        padding: 0.35rem 0.6rem;
+    }
+}
+
+/*fin de actividad/index.phtml*/
+
+:root {
+    --brand-color: #013755;
+}
+
+.navbar {
+    background-color: var(--brand-color);
+}
+
+.btn-primary {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+
+/* allows bootstrap to style Laminas Navigation generated menu items within the navbar */
+.navbar li.active a {
+    color: var(--bs-navbar-active-color);
+}
+
+
+/* Solo afecta al login */
+.login-form {
+    width: 100%;
+    max-width: 350px;
+    /* un poco más compacto */
+    border-radius: 16px;
+    padding: 30px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    /* sombra más suave y elegante */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* efecto hover */
+}
+
+.login-form:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.login-form h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #013755;
+    /* color de marca */
+}
+
+.login-form .btn-primary {
+    background-color: #013755;
+    border-color: #013755;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.login-form .btn-primary:hover {
+    background-color: #012f4a;
+    transform: translateY(-1px);
+}
+
+
+.login-container {
+    max-width: 500px;
+    /* ancho del contenedor */
+    margin: 0 auto;
+    /* centrar horizontalmente */
+    height: 60vh;
+    background: linear-gradient(135deg, #e0f0ff, #f8f9fa);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    /* opcional */
+}
+
+
+
+/* Sidebar general */
+.sidebar {
+    width: 230px;
+    min-height: 100vh;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Links */
+.sidebar .nav-link {
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Mejor lectura */
+.sidebar h5 {
+    letter-spacing: 1px;
+    font-size: 16px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f3f5 !important;
+    /* gris claro */
+    color: #000 !important;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Botones más compactos en tabla */
+.table td .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* Cards y alertas con sombra y bordes redondeados */
+.card,
+.alert {
+    border-radius: 0.5rem;
+}
+
+/* Inputs grandes en filtro */
+input.form-control-lg {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+/* Botones grandes en filtro */
+.btn-lg {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Alineación y wrapping de botones en tabla */
+.table td div.d-flex {
+    gap: 0.25rem;
+    justify-content: center;
+}
+
+/* Asegura que la celda de acciones tenga altura mínima uniforme */
+.table td.text-center.align-middle {
+    min-height: 50px;
+}
+
+/* Flexbox para que los botones se centren vertical y horizontalmente */
+.table td.text-center .d-flex {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* permite wrap si hay muchos botones en pantallas pequeñas */
+    gap: 0.3rem;
+    /* separación entre botones */
+}
+
+/* Botones más uniformes y compactos */
+.table td .btn-sm {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* Hover en la tabla */
+.table-hover tbody tr:hover {
+    background-color: #f1f3f5;
+    color: #000;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+
+/* Card body labels */
+.card-body .text-muted {
+    letter-spacing: 0.5px;
+}
+
+/* Footer spacing para que botones no se peguen en pantallas pequeñas */
+.card-footer {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Badge un poco más grande */
+.badge {
+    font-size: 0.95rem;
+}
+
+/* Hover suave en botones */
+.btn-outline-secondary:hover,
+.btn-warning:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.card {
+    border-radius: 0.5rem;
+}
+
+/* Inputs y selects más agradables */
+.form-control,
+.form-select {
+    border-radius: 0.35rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #013755;
+    box-shadow: 0 0 0 0.15rem rgba(1, 55, 85, 0.25);
+}
+
+/* Botones */
+.btn-primary:hover,
+.btn-outline-secondary:hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s ease;
+}
+
+/* Labels */
+.form-label.fw-semibold {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Mensajes */
+.alert {
+    border-radius: 0.5rem;
+}
+
+
+/*view.phtml*/
+
+/* Card */
+.card {
+    border-radius: 0.5rem;
+}
+
+/* Tabla */
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f3f5;
+    transition: background-color 0.2s;
+}
+
+/* Botón aprobar */
+.table td .btn-success {
+    min-width: auto;
+    font-weight: 500;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.85rem;
+}
+
+.table td .btn-danger {
+    min-width: auto;
+    font-weight: 500;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.85rem;
+}
+
+.table-responsive {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f3f5;
+    transition: background-color 0.2s;
+}
+
+
+
+/*auditoria de la asociacion de estudiantes*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 6px;
+}
+
+th {
+    background: #f5f5f5;
+}
+
+.estado {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 90px;
+    text-align: center;
+}
+
+.pendiente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.aprobado {
+    background: #d4edda;
+    color: #155724;
+}
+
+.rechazado {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.filtros {
+    margin-bottom: 15px;
+}
+
+.filtros input {
+    padding: 6px;
+    width: 220px;
+}
+
+.detail-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 420px;
+    height: 100%;
+    background: #fff;
+    border-left: 1px solid #ccc;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, .15);
+    padding: 16px;
+    overflow-y: auto;
+    transition: right .3s ease;
+    z-index: 1050;
+}
+
+.detail-sidebar.open {
+    right: 0;
+}
+
+.cerrar {
+    float: right;
+    cursor: pointer;
+    font-weight: bold;
+}

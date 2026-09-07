@@ -1,0 +1,8 @@
+<?= $this->headLink()->appendStylesheet('/css/alerts.css') ?>
+<?= $this->headScript()->appendFile('/js/alerts.js') ?>
+
+<?php if (!empty($errorMessage)) : ?>
+    <div class="alert alert-danger alert-floating">
+        <?= $this->escapeHtml($errorMessage) ?>
+    </div>
+<?php endif; ?>

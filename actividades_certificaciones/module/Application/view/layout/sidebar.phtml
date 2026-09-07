@@ -1,0 +1,59 @@
+<?php
+
+$session  = new \Laminas\Session\Container('user');
+
+$nombre   = $session->nombre ?? null;
+$apellido = $session->apellido ?? null;
+$tipoId   = $session->tipo_id ?? null;
+
+$usuario  = trim(($nombre ?? '') . ' ' . ($apellido ?? ''));
+
+$permisos = $session->permisos ?? [];
+
+/* Definir sidebar según tipo_id */
+
+if (in_array($tipoId, [1])) {
+
+    $sidebar = 'admin';
+
+} elseif (in_array($tipoId, [2, 3, 4])) {
+
+    $sidebar = 'usuarios';
+
+} else {
+
+    $sidebar = null;
+
+}
+
+
+/* Render sidebar */
+
+if (!$usuario):
+
+    echo '<p class="text-white-50">Sin permisos.</p>';
+
+elseif ($sidebar):
+
+    $partialPath = 'layout/sidebar-' . $sidebar;
+    $viewPath = $this->resolver()->resolve($partialPath);
+
+    if ($viewPath):
+
+        echo $this->partial($partialPath, [
+            'username' => $usuario,
+            'permisos' => $permisos,
+            'tipoId'   => $tipoId
+        ]);
+
+    else:
+
+        echo "<p class='text-white-50'>Sidebar no disponible para '{$sidebar}'.</p>";
+
+    endif;
+
+else:
+
+    echo '<p class="text-white-50">Sidebar no definido para este usuario.</p>';
+
+endif;

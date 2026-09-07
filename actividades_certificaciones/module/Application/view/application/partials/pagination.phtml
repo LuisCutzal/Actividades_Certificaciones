@@ -1,0 +1,89 @@
+<?php
+$paginator = $paginator ?? null;
+$query = $query ?? [];
+
+if (!$paginator instanceof \Laminas\Paginator\Paginator || $paginator->count() <= 1) {
+    return;
+}
+
+$totalPages = $paginator->count();
+$current = $paginator->getCurrentPageNumber();
+
+$range = 2;
+$start = max(1, $current - $range);
+$end = min($totalPages, $current + $range);
+
+// función protegida
+if (!function_exists('buildQuery')) {
+    function buildQuery($page, $query)
+    {
+        return '?' . http_build_query(array_merge(
+            array_filter($query), // evita parámetros vacíos
+            ['page' => $page]
+        ));
+    }
+}
+?>
+
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        <!-- Anterior -->
+        <!-- <?php if ($current > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?= buildQuery($current - 1, $query) ?>">
+                    « Anterior
+                </a>
+            </li>
+        <?php endif; ?> -->
+
+        <!-- Primera -->
+        <?php if ($start > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?= buildQuery(1, $query) ?>">1</a>
+            </li>
+
+            <?php if ($start > 2): ?>
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <!-- Rango -->
+        <?php for ($i = $start; $i <= $end; $i++): ?>
+            <li class="page-item <?= ($i == $current) ? 'active' : '' ?>">
+                <a class="page-link" href="<?= buildQuery($i, $query) ?>">
+                    <?= $i ?>
+                </a>
+            </li>
+        <?php endfor; ?>
+
+        <!-- Última -->
+        <?php if ($end < $totalPages): ?>
+
+            <?php if ($end < $totalPages - 1): ?>
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            <?php endif; ?>
+
+            <li class="page-item">
+                <a class="page-link" href="<?= buildQuery($totalPages, $query) ?>">
+                    <?= $totalPages ?>
+                </a>
+            </li>
+
+        <?php endif; ?>
+
+        <!-- Siguiente -->
+        <!-- <?php if ($current < $totalPages): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?= buildQuery($current + 1, $query) ?>">
+                    Siguiente »
+                </a>
+            </li>
+        <?php endif; ?> -->
+
+    </ul>
+</nav>

@@ -1,0 +1,102 @@
+<div class="d-flex flex-wrap gap-1 justify-content-center align-items-center">
+
+    <?php $tipo_id = $this->tipo_id ?? null; ?>
+
+    <?php if ((int)$actividad->estado === 1): ?>
+
+        <span class="btn btn-sm btn-success disabled" title="Actividad aprobada">
+            ✔ Aprobado
+        </span>
+
+        <?php if ($actividad->tipo_participacion === null && in_array($tipo_id, [2, 4])): ?>
+
+            <a href="/actividades/definir-participacion/<?= $actividad->id ?>"
+                class="btn btn-sm btn-primary"
+                title="Cargar participantes">
+                👥 Cargar participantes
+            </a>
+
+        <?php endif; ?>
+
+    <?php elseif ((int)$actividad->estado === 2): ?>
+
+        <span class="btn btn-sm btn-danger disabled" title="Actividad rechazada">
+            ✖ No realizada
+        </span>
+
+        <?php if ($tipo_id === 3): ?>
+
+            <a href="/actividades/ver-rechazo/<?= $actividad->id ?>"
+                class="btn btn-sm btn-outline-danger"
+                title="Ver motivo de la actividad no realizada">
+                👁 Motivo
+            </a>
+
+        <?php endif; ?>
+
+    <?php else: ?>
+
+        <?php if (in_array($tipo_id, [2, 4])): ?>
+
+            <?php if ($actividad->tipo_participacion === null): ?>
+
+                <a href="/actividades/editsimple/<?= $actividad->id ?>"
+                    class="btn btn-sm btn-warning"
+                    title="Editar actividad">
+                    ✏️
+                </a>
+
+            <?php else: ?>
+
+                <a href="/actividades/edit/<?= $actividad->id ?>"
+                    class="btn btn-sm btn-warning"
+                    title="Editar actividad">
+                    ✏️
+                </a>
+
+            <?php endif; ?>
+
+        <?php endif; ?>
+
+        <?php if ($tipo_id === 3): ?>
+
+            <a href="/actividades/aprobar/<?= $actividad->id ?>"
+                class="btn btn-sm btn-success"
+                onclick="return confirm('¿Desea aprobar esta actividad?')"
+                title="Aprobar actividad">
+                ✔
+            </a>
+
+            <a href="/actividades/rechazar/<?= $actividad->id ?>"
+                class="btn btn-sm btn-danger"
+                title="Actividad no realizada">
+                ✖
+            </a>
+
+        <?php endif; ?>
+
+    <?php endif; ?>
+
+
+    <?php if ($tipo_id === 3): ?>
+
+        <a href="/actividades/detalle/<?= $actividad->id ?>"
+            class="btn btn-sm btn-primary"
+            title="Ver detalles de la actividad">
+            👁
+        </a>
+
+    <?php endif; ?>
+
+
+    <?php if ($actividad->tipo_participacion != null): ?>
+
+        <a href="/actividades/<?= $actividad->id ?>/asistencia"
+            class="btn btn-sm btn-info"
+            title="Lista de asistencia">
+            📋
+        </a>
+
+    <?php endif; ?>
+
+</div>

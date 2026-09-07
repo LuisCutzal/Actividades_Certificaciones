@@ -1,0 +1,103 @@
+.detail-sidebar {
+    position: fixed;
+    top: 0;
+    right: -380px;
+    width: 360px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, .15);
+    padding: 20px;
+    transition: right .3s ease;
+}
+
+.detail-sidebar.open {
+    right: 0;
+}
+
+.cerrar {
+    cursor: pointer;
+    float: right;
+}
+
+/* Aumentar tamaño de los datos de la tabla */
+.table tbody td {
+    font-size: 1.0rem;
+    /* Cambia 1.2rem por lo que quieras */
+}
+
+.table thead th {
+    font-size: 1.0rem;
+    /* Un poquito más grande para encabezados */
+}
+
+/* ====== OVERLAY ====== */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 999;
+}
+
+/* ====== SIDEBAR DESLIZANTE ====== */
+.detalle-card {
+    position: fixed;
+    top: 0;
+    right: -460px; /* oculto */
+    width: 440px;
+    height: 100vh;
+
+    background: #ffffff;
+
+    box-shadow: -6px 0 18px rgba(0,0,0,.18);
+
+    padding: 24px;
+
+    overflow-y: auto;
+
+    transition: right .3s ease;
+
+    z-index: 1000;
+}
+
+/* CUANDO ESTÁ ACTIVO */
+.detalle-card.activo {
+    right: 0;
+}
+
+/* TITULO */
+.detalle-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* CONTENIDO */
+.detalle-card p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+/* SEPARADOR */
+.detalle-card hr {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* BOTÓN CERRAR */
+.detalle-card .cerrar {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    color: #999;
+}
+
+.detalle-card .cerrar:hover {
+    color: #000;
+}

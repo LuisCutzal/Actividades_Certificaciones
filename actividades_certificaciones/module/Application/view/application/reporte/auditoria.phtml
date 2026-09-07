@@ -1,0 +1,144 @@
+<div class="auditoria-container">
+    <?php
+    $this->headTitle('Auditoría - Asociación de Estudiantes');
+    ?>
+
+    <link rel="stylesheet" href="<?= $this->basePath('css/auditoria.css') ?>">
+    <script src="<?= $this->basePath('js/auditoria.js') ?>" defer></script>
+
+    <h2>Auditoría de Actividades - Asociación de Estudiantes</h2>
+
+    <div class="filtros mb-3">
+
+        <form method="get" class="d-flex gap-2">
+
+            <input
+                type="text"
+                name="carnet"
+                class="form-control"
+                placeholder="Ej: 20231234"
+                value="<?= $this->escapeHtml($carnet ?? '') ?>">
+
+            <button class="btn btn-primary">
+                🔍 Buscar
+            </button>
+
+            <a href="/reportes/auditoria/asociacion"
+                class="btn btn-outline-secondary">
+                Limpiar
+            </a>
+
+        </form>
+
+    </div>
+
+    <table id="tablaAuditoria">
+        <thead>
+            <tr>
+                <th>Carnet</th>
+                <th>Estudiante</th>
+                <th>Actividad</th>
+                <th>Estado</th>
+                <th>Créditos</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($estudiantes as $e): ?>
+                <?php
+                switch ($e->estado_lista) {
+                    case 1:
+                        $estadoTexto = 'Aprobado';
+                        $estadoClase = 'aprobado';
+                        break;
+                    case 2:
+                        $estadoTexto = 'No realizada';
+                        $estadoClase = 'rechazado';
+                        break;
+                    default:
+                        $estadoTexto = 'Pendiente';
+                        $estadoClase = 'pendiente';
+                }
+
+                $detalle = htmlspecialchars(json_encode([
+                    'estudiante' => $e->estudiante_nombre,
+                    'carnet' => $e->carnet,
+                    'actividad' => $e->actividad_nombre,
+                    'organizador' => $e->organizador_nombre,
+                    'carrera' => $e->carrera_nombre,
+                    'tipo' => ucfirst($e->tipo_participacion),
+                    'creditos' => $e->credito,
+                    'estado' => $estadoTexto,
+                    'fechaActividad' => date('d/m/Y H:i', strtotime($e->fecha_actividad)),
+                    'creado' => date('d/m/Y H:i', strtotime($e->creado)),
+                    'aprobado' => $e->aprobado ? date('d/m/Y H:i', strtotime($e->aprobado)) : '—',
+                    'rechazado' => $e->rechazado ? date('d/m/Y H:i', strtotime($e->rechazado)) : '—',
+                    'motivo' => $e->motivo_rechazo ?: '—',
+                ]), ENT_QUOTES);
+                ?>
+                <tr>
+                    <td class="carnet"><?= $e->carnet ?></td>
+                    <td><?= $this->escapeHtml($e->estudiante_nombre) ?></td>
+                    <td><?= $this->escapeHtml($e->actividad_nombre) ?></td>
+                    <td>
+                        <span class="estado <?= $estadoClase ?>">
+                            <?= $estadoTexto ?>
+                        </span>
+                    </td>
+                    <td><?= $e->credito ?></td>
+                    <td>
+                        <button class="btn-detalles" data-detalles="<?= $detalle ?>">
+                            Ver
+                        </button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?= $this->partial('application/partials/pagination', [
+        'paginator' => $estudiantes,
+        'query' => [
+            'carnet' => $carnet
+        ]
+    ]) ?>
+
+    <div id="overlay" class="overlay"></div>
+
+    <div id="detailSidebar" class="detalle-card">
+
+        <span class="cerrar" id="btnCerrarSidebar">✖</span>
+
+        <h3>Detalle de Actividad</h3>
+
+        <p><strong>Estudiante:</strong> <span id="dEstudiante"></span></p>
+        <p><strong>Carnet:</strong> <span id="dCarnet"></span></p>
+
+        <hr>
+
+        <p><strong>Actividad:</strong> <span id="dActividad"></span></p>
+        <p><strong>Organizador:</strong> <span id="dOrganizador"></span></p>
+        <p><strong>Carrera:</strong> <span id="dCarrera"></span></p>
+        <p><strong>Tipo:</strong> <span id="dTipo"></span></p>
+        <p><strong>Créditos:</strong> <span id="dCreditos"></span></p>
+
+        <hr>
+
+        <p><strong>Estado:</strong> <span id="dEstado"></span></p>
+        <p><strong>Fecha actividad:</strong> <span id="dFechaActividad"></span></p>
+        <p><strong>Creado:</strong> <span id="dCreado"></span></p>
+        <p><strong>Aprobado:</strong> <span id="dAprobado"></span></p>
+        <p><strong>No realizada:</strong> <span id="dRechazado"></span></p>
+
+        <div id="bloqueMotivo" style="display:none;">
+            <hr>
+
+            <p><strong>Motivo de la actividad no realizada:</strong></p>
+
+            <div class="motivo">
+                <span id="dMotivo"></span>
+            </div>
+        </div>
+
+    </div>
+</div>

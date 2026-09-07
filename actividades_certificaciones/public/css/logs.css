@@ -1,0 +1,220 @@
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+.logs-container {
+    padding: 20px;
+}
+
+/* =========================
+   TITULO
+========================= */
+.logs-container h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* =========================
+   FILTROS RESPONSIVE
+========================= */
+.logs-container form .form-control {
+    width: 100%;
+}
+
+/* =========================
+   TABLA RESPONSIVE BASE
+========================= */
+#tablaLogs {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+#tablaLogs thead {
+    background: #f8f9fa;
+}
+
+#tablaLogs th {
+    text-align: left;
+    padding: 10px;
+    color: #555;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#tablaLogs td {
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+#tablaLogs tbody tr:hover {
+    background: #f5f8ff;
+}
+
+/* =========================
+   BOTÓN VER
+========================= */
+.btn-detalles {
+    padding: 5px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #0d6efd;
+    background: #fff;
+    color: #0d6efd;
+    cursor: pointer;
+    transition: all .2s ease;
+    white-space: nowrap;
+}
+
+.btn-detalles:hover {
+    background: #0d6efd;
+    color: #fff;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 999;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.detalle-card {
+    position: fixed;
+    top: 0;
+    right: -460px;
+    width: 440px;
+    max-width: 95vw;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -6px 0 18px rgba(0, 0, 0, .18);
+    padding: 24px;
+    overflow-y: auto;
+    transition: right .3s ease;
+    z-index: 1000;
+}
+
+.detalle-card.activo {
+    right: 0;
+}
+
+.detalle-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* =========================
+   CONTENIDO SIDEBAR
+========================= */
+.detalle-card p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.detalle-card hr {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* =========================
+   CERRAR
+========================= */
+.detalle-card .cerrar {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #999;
+}
+
+.detalle-card .cerrar:hover {
+    color: #000;
+}
+
+/* =========================
+   JSON
+========================= */
+#jsonData {
+    background: #f8f9fa;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+/* =========================
+   PAGINACIÓN (NO ROMPER BOOTSTRAP)
+========================= */
+.pagination {
+    justify-content: center;
+    flex-wrap: wrap; /* 🔥 clave para responsive real */
+    gap: 4px;
+}
+
+.pagination li {
+    margin: 2px;
+}
+
+/* mejora móvil */
+@media (max-width: 576px) {
+    #tablaLogs {
+        font-size: 12px;
+    }
+
+    .btn-detalles {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+}
+
+/* =========================
+   PAGINACIÓN LIMPIA
+========================= */
+.pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 15px;
+}
+
+/* botones normales */
+.pagination li {
+    list-style: none;
+}
+
+/* links */
+.pagination a,
+.pagination span {
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+/* 🔥 OCULTAR ELLIPSIS (...) */
+.pagination .disabled span {
+    display: none;
+}
+
+/* opcional: mejorar activo */
+.pagination .active span {
+    background: #0d6efd;
+    color: white;
+    border-radius: 6px;
+}
+#tablaLogs thead th {
+    color: #fff;
+    font-weight: 600;
+}
